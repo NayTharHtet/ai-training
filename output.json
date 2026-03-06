@@ -1,0 +1,1431 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-03-05T19:03:41Z",
+  "runs": [
+    {
+      "run_at": "2026-03-05T06:31:01Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 200
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5591397849462365,
+          "prob_down": 0.44086021505376344,
+          "expected_return": -0.00978941566813115,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T06:32:37Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 200
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 1,
+          "as_of_date": "2025-12-22",
+          "direction": "DOWN",
+          "prob_up": 0.34285714285714286,
+          "prob_down": 0.6571428571428571,
+          "expected_return": 0.003320640595400882,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:04:58Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.3619047619047619,
+          "prob_down": 0.638095238095238,
+          "expected_return": 0.02934779535087008,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:05:52Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5667655786350149,
+          "prob_down": 0.4332344213649852,
+          "expected_return": 0.0004891909355356605,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:06:09Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5591397849462365,
+          "prob_down": 0.44086021505376344,
+          "expected_return": -0.00978941566813115,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:06:29Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5667655786350149,
+          "prob_down": 0.4332344213649852,
+          "expected_return": 0.0004891909355356605,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:06:41Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 30,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 30,
+          "as_of_date": "2025-12-22",
+          "direction": "DOWN",
+          "prob_up": 0.029411764705882353,
+          "prob_down": 0.9705882352941176,
+          "expected_return": -0.020904964379461818,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:06:48Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5667655786350149,
+          "prob_down": 0.4332344213649852,
+          "expected_return": 0.0004891909355356605,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:11:39Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5667655786350149,
+          "prob_down": 0.4332344213649852,
+          "expected_return": 0.0004891909355356605,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:26:03Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.3619047619047619,
+          "prob_down": 0.638095238095238,
+          "expected_return": 0.02934779535087008,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:28:14Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.3619047619047619,
+          "prob_down": 0.638095238095238,
+          "expected_return": 0.02934779535087008,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:28:16Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.3619047619047619,
+          "prob_down": 0.638095238095238,
+          "expected_return": 0.02934779535087008,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:28:26Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.24324324324324326,
+          "prob_down": 0.7567567567567568,
+          "expected_return": -0.0008914617494838991,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:28:36Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "as_of_date": "2025-11-17",
+          "direction": "UP",
+          "prob_up": 0.56,
+          "prob_down": 0.44,
+          "expected_return": -0.020776331051116176,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:32:01Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.3619047619047619,
+          "prob_down": 0.638095238095238,
+          "expected_return": 0.02934779535087008,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:32:19Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "as_of_date": "2025-11-17",
+          "direction": "UP",
+          "prob_up": 0.56,
+          "prob_down": 0.44,
+          "expected_return": -0.020776331051116176,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:32:54Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.24324324324324326,
+          "prob_down": 0.7567567567567568,
+          "expected_return": -0.0008914617494838991,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:37:11Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5591397849462365,
+          "prob_down": 0.44086021505376344,
+          "expected_return": -0.00978941566813115,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T18:37:21Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5667655786350149,
+          "prob_down": 0.4332344213649852,
+          "expected_return": 0.0004891909355356605,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T19:02:28Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.3619047619047619,
+          "prob_down": 0.638095238095238,
+          "expected_return": 0.02934779535087008,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T19:02:37Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.24324324324324326,
+          "prob_down": 0.7567567567567568,
+          "expected_return": -0.0008914617494838991,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T19:02:45Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "as_of_date": "2025-11-17",
+          "direction": "UP",
+          "prob_up": 0.56,
+          "prob_down": 0.44,
+          "expected_return": -0.020776331051116176,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T19:03:23Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "as_of_date": "2025-12-22",
+          "direction": "UP",
+          "prob_up": 0.5667655786350149,
+          "prob_down": 0.4332344213649852,
+          "expected_return": 0.0004891909355356605,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T19:03:32Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "as_of_date": "2025-11-17",
+          "direction": "DOWN",
+          "prob_up": 0.3619047619047619,
+          "prob_down": 0.638095238095238,
+          "expected_return": 0.02934779535087008,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-05T19:03:41Z",
+      "params": {
+        "csv": "C:\\Users\\User\\OneDrive\\Desktop\\AI training\\engineered_master_1_7_30.csv",
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 30,
+        "features_used": [
+          "Open",
+          "High",
+          "Low",
+          "Close",
+          "Volume",
+          "ret_1",
+          "ret_5",
+          "ret_20",
+          "vol_5",
+          "vol_20",
+          "ma_5",
+          "ma_20",
+          "ma_ratio"
+        ],
+        "model": "DecisionTreeClassifier + optional DecisionTreeRegressor (with fallback baseline)",
+        "random_state": 42,
+        "min_train_rows": 250
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 30,
+          "as_of_date": "2025-12-22",
+          "direction": "DOWN",
+          "prob_up": 0.5,
+          "prob_down": 0.5,
+          "expected_return": -0.004802875341156633,
+          "model": "DecisionTree (depth=5, min_leaf=25)",
+          "features_used": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "ret_1",
+            "ret_5",
+            "ret_20",
+            "vol_5",
+            "vol_20",
+            "ma_5",
+            "ma_20",
+            "ma_ratio"
+          ],
+          "note": null
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

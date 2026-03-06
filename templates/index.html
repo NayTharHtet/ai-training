@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stock Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">AI</div>
+      <div>
+        <div class="title">Stock Prediction</div>
+        <div class="sub">Pick a stock + horizon → run prediction → show result</div>
+      </div>
+    </div>
+  </div>
+
+  <main class="shell">
+    <section class="panel">
+      <div class="panel-h">Input</div>
+
+      <div style="display:none">{{ test_value }}</div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="stockSelect">Stock</label>
+          <select id="stockSelect">
+            <option value="AAPL">AAPL</option>
+            <option value="TSLA" selected>TSLA</option>
+            <option value="NVDA">NVDA</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="horizonSelect">Horizon</label>
+          <select id="horizonSelect">
+            <option value="1">1 day</option>
+            <option value="7" selected>7 days</option>
+            <option value="30">30 days</option>
+          </select>
+        </div>
+
+        <button id="btn" class="btn" type="button">Show result</button>
+
+        <div class="hint">
+          Backend: <code>POST /run_predict</code>, JSON: <code>output.json</code>
+        </div>
+      </div>
+
+      <div class="status" id="status">Idle.</div>
+    </section>
+
+    <section class="panel panel-out">
+      <div class="panel-h">Output</div>
+
+      <div class="out-grid">
+        <div class="tile">
+          <div class="k">Stock</div>
+          <div class="v" id="outStock">–</div>
+        </div>
+
+        <div class="tile">
+          <div class="k">Horizon</div>
+          <div class="v" id="outHorizon">–</div>
+        </div>
+
+        <div class="tile">
+          <div class="k">Prediction</div>
+          <div class="pill neutral" id="outPred">–</div>
+        </div>
+
+        <div class="tile">
+          <div class="k">Confidence</div>
+          <div class="v" id="outConf">–</div>
+        </div>
+
+        <div class="tile tile-wide">
+          <div class="k">Date</div>
+          <div class="v" id="outDate">–</div>
+        </div>
+
+        <div class="tile tile-wide">
+          <div class="k">Note</div>
+          <div class="v small" id="outNote">–</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function setStatus(msg) { $("status").textContent = msg; }
+
+    function setPill(text) {
+      const el = $("outPred");
+      el.textContent = text || "–";
+      el.classList.remove("up","down","neutral");
+      if (text === "UP") el.classList.add("up");
+      else if (text === "DOWN") el.classList.add("down");
+      else el.classList.add("neutral");
+    }
+
+    function fmtPct01(x) {
+      if (x === null || x === undefined || Number.isNaN(Number(x))) return "–";
+      return Math.round(Number(x) * 100) + "%";
+    }
+
+    function clearOutput() {
+      $("outStock").textContent = "–";
+      $("outHorizon").textContent = "–";
+      setPill("–");
+      $("outConf").textContent = "–";
+      $("outDate").textContent = "–";
+      $("outNote").textContent = "–";
+    }
+
+    function setOutputFromResult(r) {
+      $("outStock").textContent = r.ticker ?? "–";
+      $("outHorizon").textContent = (r.horizon_days != null) ? `${r.horizon_days} day(s)` : "–";
+      setPill(r.direction ?? "–");
+
+      const pu = r.prob_up;
+      const pd = r.prob_down;
+      let conf = "–";
+      if (pu != null || pd != null) conf = fmtPct01(Math.max(pu ?? 0, pd ?? 0));
+      $("outConf").textContent = conf;
+
+      $("outDate").textContent = "–";
+      $("outNote").textContent = r.note ?? "–";
+    }
+
+    async function runAndShow() {
+      clearOutput();
+
+      const ticker = $("stockSelect").value;
+      const horizon = Number($("horizonSelect").value);
+
+      setStatus("Running predict.py...");
+
+      try {
+        const res = await fetch("/run_predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ tickers: ticker, horizon: horizon, ticker: ticker })
+        });
+
+        const payload = await res.json();
+
+        if (!res.ok || !payload.ok) {
+          setStatus("Error: " + (payload.error || "backend failed"));
+          return;
+        }
+
+        const picked = payload.picked || {};
+        console.log("picked.target_date =", picked.target_date, "as_of_date =", picked.result?.as_of_date, "horizon_days =", picked.result?.horizon_days);
+        if (picked.result) {
+          setOutputFromResult(picked.result);
+          setStatus("Done.");
+          $("outDate").textContent = picked.target_date ?? (picked.result.as_of_date ?? "–");
+          return;
+        }
+
+
+
+        if (picked.error) {
+          setStatus("Ticker failed: " + (picked.error.error || "unknown error"));
+          $("outStock").textContent = ticker;
+          $("outHorizon").textContent = horizon + " day(s)";
+          $("outNote").textContent = picked.error.error || "unknown error";
+          setPill("–");
+          return;
+        }
+
+        setStatus("No result returned. Check output.json latest run.");
+      } catch (e) {
+        console.error(e);
+        setStatus("Error: cannot reach backend.");
+      }
+    }
+
+    $("btn").addEventListener("click", runAndShow);
+  </script>
+</body>
+</html>
