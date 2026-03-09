@@ -336,9 +336,11 @@ def run_pipeline(
                 "direction": direction,
                 "prob_up": prob_up,
                 "expected_return": expected_return,
+                "note": llm_note,
                 "llm_note": llm_note,
                 "source": "Yahoo Finance live/recent market data",
             }
+
             results.append(result)
 
         except Exception as e:
