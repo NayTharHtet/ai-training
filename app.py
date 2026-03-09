@@ -4,11 +4,10 @@ import json
 import subprocess
 import sys
 from datetime import datetime, timedelta
-
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from flask import Flask, jsonify, make_response, render_template, request, send_from_directory
+from flask import Flask, jsonify, make_response, render_template, request
 
 BASE_DIR = Path(__file__).resolve().parent
 PREDICT_PY = BASE_DIR / "predict.py"
@@ -17,7 +16,8 @@ OUTPUT_JSON = BASE_DIR / "output.json"
 ALLOWED_TICKERS = {"AAPL", "NVDA", "TSLA", "ALL"}
 ALLOWED_HORIZONS = {1, 7, 30}
 
-app = Flask(__name__)  # uses ./templates and ./static by default [web:709][web:710]
+app = Flask(__name__)
+
 
 @app.get("/__debug_paths")
 def __debug_paths():
@@ -30,16 +30,19 @@ def __debug_paths():
         "index_path": str(Path(app.root_path) / (app.template_folder or "templates") / "index.html"),
     })
 
+
 @app.get("/__debug_index_len")
 def __debug_index_len():
-    from pathlib import Path
     p = Path(app.root_path) / (app.template_folder or "templates") / "index.html"
     if not p.exists():
         return jsonify({"exists": False, "path": str(p)})
     txt = p.read_text(encoding="utf-8", errors="replace")
-    return jsonify({"exists": True, "path": str(p), "length": len(txt), "first_120": txt[:120]})
-
-
+    return jsonify({
+        "exists": True,
+        "path": str(p),
+        "length": len(txt),
+        "first_120": txt[:120]
+    })
 
 
 def _no_cache(resp):
@@ -65,21 +68,36 @@ def _latest_run(data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     return last if isinstance(last, dict) else None
 
 
-def _pick_result(run: Dict[str, Any], ticker: str) -> Optional[Dict[str, Any]]:
+def _pick_result(run: Dict[str, Any], ticker: str, horizon: Optional[int] = None) -> Optional[Dict[str, Any]]:
     results = run.get("results")
     if not isinstance(results, list):
         return None
+
     t = ticker.strip().upper()
-    for r in results:
-        if isinstance(r, dict) and str(r.get("ticker", "")).upper() == t:
-            return r
-    return None
+    matched = [
+        r for r in results
+        if isinstance(r, dict) and str(r.get("ticker", "")).upper() == t
+    ]
+
+    if not matched:
+        return None
+
+    if horizon is not None:
+        for r in matched:
+            try:
+                if int(r.get("horizon_days", -1)) == int(horizon):
+                    return r
+            except Exception:
+                pass
+
+    return matched[-1]
 
 
 def _pick_error(run: Dict[str, Any], ticker: str) -> Optional[Dict[str, Any]]:
     errors = run.get("errors")
     if not isinstance(errors, list):
         return None
+
     t = ticker.strip().upper()
     for e in errors:
         if isinstance(e, dict) and str(e.get("ticker", "")).upper() == t:
@@ -89,6 +107,7 @@ def _pick_error(run: Dict[str, Any], ticker: str) -> Optional[Dict[str, Any]]:
 
 def _validate_inputs(tickers: str, horizon: int) -> Optional[str]:
     tickers = (tickers or "ALL").strip().upper()
+
     if tickers == "ALL":
         ok_tickers = True
     else:
@@ -119,7 +138,6 @@ def index():
     return render_template("index.html")
 
 
-
 @app.get("/output.json")
 def output_json():
     data = _read_json(OUTPUT_JSON)
@@ -130,10 +148,10 @@ def output_json():
 @app.post("/run_predict")
 def run_predict():
     body = request.get_json(silent=True) or {}
+
     tickers = str(body.get("tickers", "ALL")).strip().upper()
     horizon = int(body.get("horizon", 7))
     ticker_for_ui = str(body.get("ticker", "")).strip().upper()
-
 
     err = _validate_inputs(tickers, horizon)
     if err:
@@ -156,33 +174,32 @@ def run_predict():
 
     picked_result = None
     picked_error = None
+
     if last and ticker_for_ui:
-        picked_result = _pick_result(last, ticker_for_ui)
+        picked_result = _pick_result(last, ticker_for_ui, horizon)
         picked_error = _pick_error(last, ticker_for_ui)
-        
+
     target_date = None
-    if picked_result and picked_result.get("as_of_date"):
-        try:
-            d0 = datetime.strptime(picked_result["as_of_date"], "%Y-%m-%d").date()
-            target_date = (d0 + timedelta(days=int(horizon))).isoformat()
-        except Exception:
-            target_date = None
-
-
+    try:
+        today = datetime.now().date()
+        target_date = (today + timedelta(days=int(horizon))).isoformat()
+    except Exception:
+        target_date = None
 
     return _no_cache(make_response(jsonify({
-    "ok": True,
-    "data": data,
-    "latest_run": last,
-    "picked": {
-        "ticker": ticker_for_ui or None,
-        "result": picked_result,
-        "error": picked_error,
-        "target_date": target_date
-    }
-}), 200))
-
+        "ok": True,
+        "data": data,
+        "latest_run": last,
+        "picked": {
+            "ticker": ticker_for_ui or None,
+            "result": picked_result,
+            "error": picked_error,
+            "target_date": target_date
+        }
+    }), 200))
 
 
 if __name__ == "__main__":
+    app.jinja_env.auto_reload = True
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
     app.run(host="127.0.0.1", port=5000, debug=True)
