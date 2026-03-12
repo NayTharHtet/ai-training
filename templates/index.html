@@ -42,6 +42,17 @@
               </select>
             </div>
 
+            <div class="field">
+              <label for="modelSelect">Model</label>
+              <select id="modelSelect">
+                <option value="xgboost" selected>XGBoost</option>
+                <option value="baseline">Baseline</option>
+                <option value="decision_tree">Decision Tree</option>
+                <option value="llm">LLM - ChatGPT</option>
+              </select>
+            </div>
+
+
             <button id="btn" class="btn" type="button">Run prediction</button>
 
             <div class="meta">
@@ -148,6 +159,7 @@
 
       const ticker = $("stockSelect").value;
       const horizon = Number($("horizonSelect").value);
+      const model = $("modelSelect").value;          // <‑‑ ① read model
 
       setStatus("Running prediction...");
 
@@ -158,7 +170,8 @@
           body: JSON.stringify({
             tickers: ticker,
             horizon: horizon,
-            ticker: ticker
+            ticker: ticker,
+            model: model                            // <‑‑ ② send model
           })
         });
 
