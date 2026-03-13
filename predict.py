@@ -14,10 +14,11 @@ import yfinance as yf
 from groq import Groq
 
 
-DEFAULT_MODEL_PATH = "model.pkl"
+DEFAULT_MODEL_PATH = "model_multi.pkl"
 DEFAULT_OUTPUT_PATH = "output.json"
 VALID_TICKERS = ["AAPL", "NVDA", "TSLA"]
 VALID_HORIZONS = [1, 7, 30]
+VALID_MODEL_NAMES = ["logistic_regression", "decision_tree", "xgboost"]
 
 
 def utc_now_iso() -> str:
@@ -26,7 +27,7 @@ def utc_now_iso() -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Load trained XGBoost model, fetch live data, predict, call Groq, and write output.json"
+        description="Load trained models, fetch live data, predict, call Groq, and write output.json"
     )
     parser.add_argument(
         "--tickers",
@@ -42,10 +43,17 @@ def parse_args() -> argparse.Namespace:
         help="Prediction horizon in days: 1, 7, or 30",
     )
     parser.add_argument(
-        "--model",
+        "--model-path",
         type=str,
         default=DEFAULT_MODEL_PATH,
-        help="Path to trained model.pkl",
+        help="Path to trained combined model file",
+    )
+    parser.add_argument(
+        "--model-name",
+        type=str,
+        default="xgboost",
+        choices=VALID_MODEL_NAMES,
+        help="Which prediction model to use",
     )
     parser.add_argument(
         "--output",
@@ -62,7 +70,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def interactive_prompt() -> tuple[str, int, str, str, str]:
+def interactive_prompt() -> tuple[str, int, str, str, str, str]:
     print("\n=== Stock Predictor ===")
     print("Tickers available: AAPL, NVDA, TSLA")
     tickers = input("Choose ticker(s) [ALL/AAPL/NVDA/TSLA or comma separated] (default ALL): ").strip()
@@ -83,8 +91,9 @@ def interactive_prompt() -> tuple[str, int, str, str, str]:
     model_path = DEFAULT_MODEL_PATH
     output_path = DEFAULT_OUTPUT_PATH
     period = "6mo"
+    model_name = "xgboost"
 
-    return tickers, horizon, model_path, output_path, period
+    return tickers, horizon, model_path, model_name, output_path, period
 
 
 def normalize_requested_tickers(tickers_raw: str) -> List[str]:
@@ -147,12 +156,10 @@ def build_live_features(df: pd.DataFrame) -> pd.DataFrame:
     df["Date"] = pd.to_datetime(df["Date"], utc=True, errors="coerce")
     df = df.dropna(subset=["Date"]).sort_values("Date").reset_index(drop=True)
 
-    # numeric cleanup
     numeric_cols = ["Open", "High", "Low", "Close", "Volume"]
     for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # feature engineering to match training
     df["ret_1"] = df["Close"].pct_change(1)
     df["ret_5"] = df["Close"].pct_change(5)
     df["ret_20"] = df["Close"].pct_change(20)
@@ -180,7 +187,6 @@ def build_model_input_row(
     if missing_base:
         raise ValueError(f"Missing base feature columns for {ticker}: {missing_base}")
 
-    # use latest valid row
     working = working.dropna(subset=base_features).reset_index(drop=True)
     if working.empty:
         raise ValueError(f"Not enough recent data to compute features for {ticker}")
@@ -191,7 +197,6 @@ def build_model_input_row(
     x = latest_row[base_features + ["Ticker"]].copy()
     x = pd.get_dummies(x, columns=["Ticker"], prefix="Ticker")
 
-    # align to training columns
     for col in feature_columns:
         if col not in x.columns:
             x[col] = 0
@@ -201,7 +206,6 @@ def build_model_input_row(
         x = x.drop(columns=extra_cols)
 
     x = x[feature_columns]
-
     return x, as_of_row
 
 
@@ -214,6 +218,8 @@ def generate_llm_note(
     prob_up: float,
     expected_return: float | None,
     as_of_date: str,
+    model_name: str,
+    model_reason: str | None = None,
 ) -> str:
     if client is None:
         return "Groq note unavailable because GROQ_API_KEY is not set."
@@ -221,14 +227,17 @@ def generate_llm_note(
     expected_return_text = (
         f"{expected_return:.4f}" if expected_return is not None else "N/A"
     )
+    model_reason_text = model_reason if model_reason else "No extra model reason available."
 
     prompt = (
         f"You are helping explain a stock prediction to a university project user.\n"
         f"Ticker: {ticker}\n"
+        f"Model used: {model_name}\n"
         f"Horizon: {horizon} day(s)\n"
         f"Predicted direction: {direction}\n"
         f"Probability of UP: {prob_up:.4f}\n"
         f"Expected return estimate: {expected_return_text}\n"
+        f"Model reason: {model_reason_text}\n"
         f"Data as of: {as_of_date}\n\n"
         f"Write 2 short sentences only. Keep it neutral. "
         f"Do not claim certainty. Mention this is model-based and not financial advice."
@@ -275,18 +284,22 @@ def run_pipeline(
     tickers_raw: str,
     horizon: int,
     model_path: str,
+    model_name: str,
     output_path: str,
     period: str,
 ) -> int:
     artifact = load_artifact(model_path)
-    models: Dict[int, Any] = artifact["models"]
+    models_by_name: Dict[str, Dict[int, Any]] = artifact["models"]
     feature_columns: List[str] = artifact["feature_columns"]
     base_features: List[str] = artifact["base_features"]
 
-    if horizon not in models:
-        raise ValueError(f"No trained model found for horizon {horizon}")
+    if model_name not in models_by_name:
+        raise ValueError(f"No trained model group found for model '{model_name}'")
+    models_for_selected_name = models_by_name[model_name]
+    if horizon not in models_for_selected_name:
+        raise ValueError(f"No trained model found for model '{model_name}' and horizon {horizon}")
+    selected_model = models_for_selected_name[horizon]
 
-    model = models[horizon]
     requested_tickers = normalize_requested_tickers(tickers_raw)
 
     groq_api_key = os.getenv("GROQ_API_KEY")
@@ -306,17 +319,16 @@ def run_pipeline(
                 base_features=base_features,
             )
 
-            pred = int(model.predict(x_latest)[0])
-
+            pred = int(selected_model.predict(x_latest)[0])
             prob_up = None
-            if hasattr(model, "predict_proba"):
-                proba = model.predict_proba(x_latest)[0]
+            if hasattr(selected_model, "predict_proba"):
+                proba = selected_model.predict_proba(x_latest)[0]
                 if len(proba) >= 2:
                     prob_up = float(proba[1])
-
             direction = "UP" if pred == 1 else "DOWN"
-            expected_return = None
+            model_reason = None
 
+            expected_return = None
             as_of_date = pd.to_datetime(latest_row["Date"]).strftime("%Y-%m-%d")
 
             llm_note = generate_llm_note(
@@ -327,20 +339,23 @@ def run_pipeline(
                 prob_up=prob_up if prob_up is not None else 0.5,
                 expected_return=expected_return,
                 as_of_date=as_of_date,
+                model_name=model_name,
+                model_reason=model_reason,
             )
 
             result = {
                 "ticker": ticker,
                 "horizon_days": horizon,
+                "model_name": model_name,
                 "as_of_date": as_of_date,
                 "direction": direction,
                 "prob_up": prob_up,
                 "expected_return": expected_return,
+                "model_reason": model_reason,
                 "note": llm_note,
                 "llm_note": llm_note,
                 "source": "Yahoo Finance live/recent market data",
             }
-
             results.append(result)
 
         except Exception as e:
@@ -351,6 +366,7 @@ def run_pipeline(
         "params": {
             "tickers": requested_tickers,
             "horizon_days": horizon,
+            "model_name": model_name,
             "model_path": str(Path(model_path).expanduser().resolve()),
             "period": period,
         },
@@ -369,7 +385,7 @@ def run_pipeline(
         print("\nLatest prediction summary:")
         for item in results:
             print(
-                f"- {item['ticker']} ({item['horizon_days']}d): {item['direction']}"
+                f"- {item['ticker']} ({item['horizon_days']}d, {item['model_name']}): {item['direction']}"
                 f" | prob_up={item['prob_up']}"
                 f" | as_of={item['as_of_date']}"
             )
@@ -382,7 +398,8 @@ def main() -> int:
     return run_pipeline(
         tickers_raw=args.tickers,
         horizon=args.horizon,
-        model_path=args.model,
+        model_path=args.model_path,
+        model_name=args.model_name,
         output_path=args.output,
         period=args.period,
     )
@@ -392,12 +409,13 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) == 1:
-        tickers, horizon, model_path, output_path, period = interactive_prompt()
+        tickers, horizon, model_path, model_name, output_path, period = interactive_prompt()
         raise SystemExit(
             run_pipeline(
                 tickers_raw=tickers,
                 horizon=horizon,
                 model_path=model_path,
+                model_name=model_name,
                 output_path=output_path,
                 period=period,
             )

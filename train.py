@@ -1,16 +1,18 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import joblib
 import pandas as pd
-from xgboost import XGBClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
+from xgboost import XGBClassifier
 
 
 CSV_PATH = "engineered_master_1_7_30.csv"
-MODEL_PATH = "model.pkl"
+MODEL_PATH = "model_multi.pkl"
 
 BASE_FEATURES = [
     "Open",
@@ -54,7 +56,7 @@ def prepare_features(df: pd.DataFrame) -> tuple[pd.DataFrame, List[str]]:
 
     x = df[BASE_FEATURES + ["Ticker"]].copy()
 
-    # One-hot encode ticker so model can learn stock-specific patterns
+    # One-hot encode ticker so models can learn stock-specific patterns
     x = pd.get_dummies(x, columns=["Ticker"], prefix="Ticker")
 
     feature_columns = x.columns.tolist()
@@ -72,20 +74,31 @@ def time_split(x: pd.DataFrame, y: pd.Series, split_ratio: float = 0.8):
     return x_train, x_test, y_train, y_test
 
 
-def train_one_model(x: pd.DataFrame, y: pd.Series) -> XGBClassifier:
-    model = XGBClassifier(
-        n_estimators=200,
-        max_depth=4,
-        learning_rate=0.05,
-        subsample=0.9,
-        colsample_bytree=0.9,
-        objective="binary:logistic",
-        eval_metric="logloss",
-        random_state=42,
-        use_label_encoder=False,
-    )
-    model.fit(x, y)
-    return model
+def build_model(model_name: str) -> Any:
+    if model_name == "logistic_regression":
+        return LogisticRegression(max_iter=1000, random_state=42)
+
+    if model_name == "decision_tree":
+        return DecisionTreeClassifier(
+            max_depth=5,
+            min_samples_split=10,
+            min_samples_leaf=5,
+            random_state=42,
+        )
+
+    if model_name == "xgboost":
+        return XGBClassifier(
+            n_estimators=200,
+            max_depth=4,
+            learning_rate=0.05,
+            subsample=0.9,
+            colsample_bytree=0.9,
+            objective="binary:logistic",
+            eval_metric="logloss",
+            random_state=42,
+        )
+
+    raise ValueError(f"Unknown model name: {model_name}")
 
 
 def main() -> int:
@@ -97,12 +110,23 @@ def main() -> int:
     df = load_data(str(csv_path))
     x_all, feature_columns = prepare_features(df)
 
-    trained_models: Dict[int, XGBClassifier] = {}
-    metrics: Dict[int, Dict[str, float]] = {}
+    model_names = [
+        "logistic_regression",
+        "decision_tree",
+        "xgboost",
+    ]
+
+    trained_models: Dict[str, Dict[int, Any]] = {
+        model_name: {} for model_name in model_names
+    }
+
+    metrics: Dict[str, Dict[int, Dict[str, float]]] = {
+        model_name: {} for model_name in model_names
+    }
 
     for horizon, target_col in TARGETS.items():
         if target_col not in df.columns:
-            print(f"[WARN] Skipping {horizon}d model because '{target_col}' is missing.")
+            print(f"[WARN] Skipping {horizon}d models because '{target_col}' is missing.")
             continue
 
         working = x_all.copy()
@@ -115,27 +139,36 @@ def main() -> int:
         y = working[target_col].astype(int)
 
         if len(x) < 50:
-            print(f"[WARN] Not enough rows to train {horizon}d model.")
+            print(f"[WARN] Not enough rows to train {horizon}d models.")
             continue
 
         x_train, x_test, y_train, y_test = time_split(x, y, split_ratio=0.8)
 
-        model = train_one_model(x_train, y_train)
-        preds = model.predict(x_test)
+        print(f"\n==============================")
+        print(f"=== HORIZON: {horizon} DAY ===")
+        print(f"==============================")
 
-        acc = accuracy_score(y_test, preds)
-        trained_models[horizon] = model
-        metrics[horizon] = {
-            "accuracy": float(acc),
-            "train_rows": int(len(x_train)),
-            "test_rows": int(len(x_test)),
-        }
+        for model_name in model_names:
+            model = build_model(model_name)
+            model.fit(x_train, y_train)
 
-        print(f"\n=== {horizon} DAY MODEL ===")
-        print(f"Accuracy: {acc:.4f}")
-        print(classification_report(y_test, preds, digits=4))
+            preds = model.predict(x_test)
+            acc = accuracy_score(y_test, preds)
 
-    if not trained_models:
+            trained_models[model_name][horizon] = model
+            metrics[model_name][horizon] = {
+                "accuracy": float(acc),
+                "train_rows": int(len(x_train)),
+                "test_rows": int(len(x_test)),
+            }
+
+            print(f"\n--- {model_name.upper()} ---")
+            print(f"Accuracy: {acc:.4f}")
+            print(classification_report(y_test, preds, digits=4))
+
+    # Check if at least one model got trained
+    anything_trained = any(trained_models[name] for name in trained_models)
+    if not anything_trained:
         print("[ERROR] No models were trained.")
         return 1
 
@@ -148,7 +181,7 @@ def main() -> int:
     }
 
     joblib.dump(artifact, MODEL_PATH)
-    print(f"\n[OK] Saved trained model artifact to: {Path(MODEL_PATH).resolve()}")
+    print(f"\n[OK] Saved combined model artifact to: {Path(MODEL_PATH).resolve()}")
 
     return 0
 
