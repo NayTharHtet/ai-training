@@ -16,6 +16,7 @@ OUTPUT_JSON = BASE_DIR / "output.json"
 
 ALLOWED_TICKERS = {"AAPL", "NVDA", "TSLA", "ALL"}
 ALLOWED_HORIZONS = {1, 7, 30}
+ALLOWED_MODELS = {"logistic_regression", "decision_tree", "xgboost", "chatgpt"}
 
 app = Flask(__name__)
 
@@ -176,8 +177,9 @@ def _pick_error(run: Dict[str, Any], ticker: str) -> Optional[Dict[str, Any]]:
     return None
 
 
-def _validate_inputs(tickers: str, horizon: int) -> Optional[str]:
+def _validate_inputs(tickers: str, horizon: int, model_name: str) -> Optional[str]:
     tickers = (tickers or "ALL").strip().upper()
+    model_name = (model_name or "").strip().lower()
 
     if tickers == "ALL":
         ok_tickers = True
@@ -191,14 +193,18 @@ def _validate_inputs(tickers: str, horizon: int) -> Optional[str]:
     if horizon not in ALLOWED_HORIZONS:
         return "Invalid horizon. Use 1, 7, or 30."
 
+    if model_name not in ALLOWED_MODELS:
+        return "Invalid model selected."
+
     return None
 
 
-def _run_predict_py(tickers: str, horizon: int) -> subprocess.CompletedProcess:
+def _run_predict_py(tickers: str, horizon: int, model_name: str) -> subprocess.CompletedProcess:
     cmd = [
         sys.executable, str(PREDICT_PY),
         "--tickers", tickers,
         "--horizon", str(horizon),
+        "--model-name", model_name,
         "--output", str(OUTPUT_JSON),
     ]
     return subprocess.run(cmd, capture_output=True, text=True)
@@ -223,15 +229,16 @@ def run_predict():
     tickers = str(body.get("tickers", "ALL")).strip().upper()
     horizon = int(body.get("horizon", 7))
     ticker_for_ui = str(body.get("ticker", "")).strip().upper()
+    model_name = str(body.get("model", "xgboost")).strip().lower()
 
-    err = _validate_inputs(tickers, horizon)
+    err = _validate_inputs(tickers, horizon, model_name)
     if err:
         return _no_cache(make_response(jsonify({"ok": False, "error": err}), 400))
 
     if not PREDICT_PY.exists():
         return _no_cache(make_response(jsonify({"ok": False, "error": "predict.py not found"}), 500))
 
-    proc = _run_predict_py(tickers, horizon)
+    proc = _run_predict_py(tickers, horizon, model_name)
     if proc.returncode != 0:
         return _no_cache(make_response(jsonify({
             "ok": False,

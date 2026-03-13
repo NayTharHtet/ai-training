@@ -2774,6 +2774,342 @@
         }
       ],
       "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:01:01+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5241015553474426,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock is UP with a probability of 0.5241 as of 2026-03-12. This model-based prediction is for informational purposes only and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock is UP with a probability of 0.5241 as of 2026-03-12. This model-based prediction is for informational purposes only and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:05:05+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5072078331474749,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.72% as of 2026-03-12. This model-based prediction is for information purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.72% as of 2026-03-12. This model-based prediction is for information purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:05:22+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "DOWN",
+          "prob_up": 0.0,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. Please note that this is a model-based prediction and not financial advice, and users should consult with a financial expert before making any investment decisions.",
+          "llm_note": "Based on our decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. Please note that this is a model-based prediction and not financial advice, and users should consult with a financial expert before making any investment decisions.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:05:45+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "DOWN",
+          "prob_up": 0.0,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. This prediction is model-based and should not be considered as financial advice; it is intended for educational purposes only.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. This prediction is model-based and should not be considered as financial advice; it is intended for educational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:06:00+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5241015553474426,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our xgboost model, the predicted direction for TSLA stock over the next 1 day is UP with a probability of 0.5241. This prediction is model-based and should not be considered as investment advice; it is intended for informational purposes only.",
+          "llm_note": "Based on our xgboost model, the predicted direction for TSLA stock over the next 1 day is UP with a probability of 0.5241. This prediction is model-based and should not be considered as investment advice; it is intended for informational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:06:21+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5072078331474749,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.72% as of 2026-03-12. This prediction is model-based and should not be considered as financial advice, but rather a data-driven insight for informational purposes.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.72% as of 2026-03-12. This prediction is model-based and should not be considered as financial advice, but rather a data-driven insight for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:06:36+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "DOWN",
+          "prob_up": 0.0,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:06:58+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5355791067373202,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5356. This prediction is model-based and should not be considered as financial advice, but rather a data-driven forecast.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5356. This prediction is model-based and should not be considered as financial advice, but rather a data-driven forecast.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:07:13+00:00",
+      "params": {
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5355791067373202,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for NVDA stock is UP with a probability of 0.5356 as of 2026-03-12. This prediction is model-based and should not be considered as financial advice, but rather a data-driven estimate for informational purposes.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for NVDA stock is UP with a probability of 0.5356 as of 2026-03-12. This prediction is model-based and should not be considered as financial advice, but rather a data-driven estimate for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:07:34+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5355791067373202,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 53.56%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 53.56%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:07:54+00:00",
+      "params": {
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "UP",
+          "prob_up": 0.5355791067373202,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our decision_tree model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 53.56%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on our decision_tree model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 53.56%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-13T06:08:08+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-12",
+          "direction": "DOWN",
+          "prob_up": 0.0,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. This prediction is model-based and should not be considered as financial advice; it is intended for educational purposes only.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.0000 for an upward movement. This prediction is model-based and should not be considered as financial advice; it is intended for educational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
     }
   ]
 }
