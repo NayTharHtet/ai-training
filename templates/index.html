@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -17,6 +16,9 @@
           <p>Clean prediction dashboard with note and confidence.</p>
         </div>
       </div>
+
+    
+
     </header>
 
     <main class="grid">
@@ -48,14 +50,13 @@
                 <option value="xgboost" selected>XGBoost</option>
                 <option value="logistic_regression">Logistic Regression</option>
                 <option value="decision_tree">Decision Tree</option>
-                <option value="chatgpt">ChatGPT</option>
+                <option value="llama">Groq Llama</option>
               </select>
             </div>
 
-
             <button id="btn" class="btn" type="button">Run prediction</button>
 
-            <div class="meta">
+            <div class="meta" style="display:none">
               <div>Backend: <code>POST /run_predict</code></div>
               <div>Result source: <code>output.json</code></div>
             </div>
@@ -73,17 +74,14 @@
               <div class="label">Stock</div>
               <div class="value" id="outStock">–</div>
             </div>
-
             <div class="stat">
               <div class="label">Horizon</div>
               <div class="value" id="outHorizon">–</div>
             </div>
-
             <div class="stat">
               <div class="label">Confidence</div>
               <div class="value" id="outConf">–</div>
             </div>
-
             <div class="stat">
               <div class="label">Target date</div>
               <div class="value" id="outDate">–</div>
@@ -95,7 +93,6 @@
               <div class="label">Prediction</div>
               <div class="pill neutral" id="outPred">–</div>
             </div>
-
             <div class="note-box">
               <div class="label">Model note</div>
               <div class="note-text" id="outNote">–</div>
@@ -104,20 +101,85 @@
         </div>
       </section>
     </main>
+
+    <!-- ── LIVE STOCK CHART SECTION ── -->
+    <section style="margin: 32px auto; max-width: 900px;">
+      <div class="card">
+        <div class="card-head">📈 Live Stock Price Chart</div>
+        <div class="card-body">
+
+          <!-- Ticker buttons -->
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <button onclick="loadStockChart('AAPL')" id="btn-AAPL" class="ticker-btn active-ticker">AAPL</button>
+            <button onclick="loadStockChart('NVDA')" id="btn-NVDA" class="ticker-btn">NVDA</button>
+            <button onclick="loadStockChart('TSLA')" id="btn-TSLA" class="ticker-btn">TSLA</button>
+          </div>
+
+          <!-- Period buttons -->
+          <div style="display:flex; gap:6px; margin-bottom:16px;">
+            <button onclick="setPeriod('7d')"  id="p-7d"  class="period-btn">7D</button>
+            <button onclick="setPeriod('30d')" id="p-30d" class="period-btn active-period">30D</button>
+            <button onclick="setPeriod('3mo')" id="p-3mo" class="period-btn">3M</button>
+            <button onclick="setPeriod('6mo')" id="p-6mo" class="period-btn">6M</button>
+            <button onclick="setPeriod('1y')"  id="p-1y"  class="period-btn">1Y</button>
+          </div>
+
+          <!-- Price summary -->
+          <div id="stockSummary" style="font-size:18px; margin-bottom:12px; min-height:28px;"></div>
+
+          <!-- Chart canvas -->
+          <canvas id="liveStockChart" height="100"></canvas>
+
+        </div>
+      </div>
+    </section>
+    <!-- ── END LIVE STOCK CHART ── -->
+
   </div>
 
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    .ticker-btn {
+      padding: 7px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #444;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .active-ticker {
+      background: #0070f3;
+    }
+    .period-btn {
+      padding: 5px 14px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .active-period {
+      border-color: #0070f3;
+      color: #0070f3;
+      font-weight: bold;
+    }
+  </style>
+
   <script>
+    /* ── Prediction logic (unchanged) ── */
     const $ = (id) => document.getElementById(id);
 
-    function setStatus(msg) {
-      $("status").textContent = msg;
-    }
+    function setStatus(msg) { $("status").textContent = msg; }
 
     function setPill(text) {
       const el = $("outPred");
       el.textContent = text || "–";
       el.classList.remove("up", "down", "neutral");
-
       if (text === "UP") el.classList.add("up");
       else if (text === "DOWN") el.classList.add("down");
       else el.classList.add("neutral");
@@ -141,7 +203,6 @@
       $("outStock").textContent = r.ticker ?? "–";
       $("outHorizon").textContent = r.horizon_days != null ? `${r.horizon_days} day(s)` : "–";
       setPill(r.direction ?? "–");
-
       const pu = r.prob_up;
       const pd = r.prob_down;
       let conf = "–";
@@ -149,48 +210,34 @@
         conf = fmtPct01(Math.max(pu ?? 0, pd ?? 0));
       }
       $("outConf").textContent = conf;
-
       $("outDate").textContent = "–";
       $("outNote").textContent = r.note ?? r.llm_note ?? "–";
     }
 
     async function runAndShow() {
       clearOutput();
-
-      const ticker = $("stockSelect").value;
+      const ticker  = $("stockSelect").value;
       const horizon = Number($("horizonSelect").value);
-      const model = $("modelSelect").value;          // <‑‑ ① read model
-
+      const model   = $("modelSelect").value;
       setStatus("Running prediction...");
-
       try {
         const res = await fetch("/run_predict", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            tickers: ticker,
-            horizon: horizon,
-            ticker: ticker,
-            model: model                            // <‑‑ ② send model
-          })
+          body: JSON.stringify({ tickers: ticker, horizon, ticker, model })
         });
-
         const payload = await res.json();
-
         if (!res.ok || !payload.ok) {
           setStatus("Error: " + (payload.error || "backend failed"));
           return;
         }
-
         const picked = payload.picked || {};
-
         if (picked.result) {
           setOutputFromResult(picked.result);
           $("outDate").textContent = picked.target_date ?? picked.result.as_of_date ?? "–";
           setStatus("Done.");
           return;
         }
-
         if (picked.error) {
           $("outStock").textContent = ticker;
           $("outHorizon").textContent = horizon + " day(s)";
@@ -199,7 +246,6 @@
           setStatus("Ticker failed: " + (picked.error.error || "unknown error"));
           return;
         }
-
         setStatus("No result returned.");
       } catch (e) {
         console.error(e);
@@ -208,6 +254,95 @@
     }
 
     $("btn").addEventListener("click", runAndShow);
+
+    /* ── Live stock chart logic ── */
+    let currentTicker = 'AAPL';
+    let currentPeriod = '30d';
+    let stockChart    = null;
+
+    function setPeriod(period) {
+      currentPeriod = period;
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active-period'));
+      document.getElementById('p-' + period).classList.add('active-period');
+      loadStockChart(currentTicker);
+    }
+
+    
+
+// Remember user preference on page reload
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.body.classList.add('light');
+    document.getElementById('themeToggle').textContent = '☀️ Light';
+  }
+})();
+
+
+    async function loadStockChart(ticker) {
+      currentTicker = ticker;
+      document.querySelectorAll('.ticker-btn').forEach(b => b.classList.remove('active-ticker'));
+      document.getElementById('btn-' + ticker).classList.add('active-ticker');
+      document.getElementById('stockSummary').innerHTML = 'Loading...';
+
+      const res  = await fetch(`/api/stock-chart?ticker=${ticker}&period=${currentPeriod}`);
+      const data = await res.json();
+
+      if (data.error) {
+        document.getElementById('stockSummary').innerHTML = 'Error: ' + data.error;
+        return;
+      }
+
+      const color = data.change >= 0 ? '#22c55e' : '#ef4444';
+      const arrow = data.change >= 0 ? '▲' : '▼';
+      const sign  = data.change >= 0 ? '+' : '';
+
+      document.getElementById('stockSummary').innerHTML =
+        `<strong>${data.ticker}</strong> &nbsp;
+         <span style="font-size:22px; font-weight:bold;">$${data.current_price}</span> &nbsp;
+         <span style="color:${color}">${arrow} ${sign}${data.change} (${sign}${data.pct_change}%)</span>`;
+
+      if (stockChart) stockChart.destroy();
+
+      const ctx = document.getElementById('liveStockChart').getContext('2d');
+      stockChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.dates,
+          datasets: [{
+            label: data.ticker + ' Close Price',
+            data: data.closes,
+            borderColor: color,
+            backgroundColor: color + '22',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: { label: ctx => ' $' + ctx.parsed.y.toFixed(2) }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { maxTicksLimit: 8 },
+              title: { display: true, text: 'Date' }
+            },
+            y: {
+              title: { display: true, text: 'Price (USD)' }
+            }
+          }
+        }
+      });
+    }
+
+    // Auto-load AAPL chart on page open
+    loadStockChart('AAPL');
   </script>
 </body>
 </html>
