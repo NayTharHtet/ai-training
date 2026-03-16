@@ -7,8 +7,9 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+import pandas as pd
+import yfinance as yf
 from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, session, url_for
-
 
 BASE_DIR = Path(__file__).resolve().parent
 PREDICT_PY = BASE_DIR / "predict.py"
@@ -16,79 +17,9 @@ OUTPUT_JSON = BASE_DIR / "output.json"
 
 ALLOWED_TICKERS = {"AAPL", "NVDA", "TSLA", "ALL"}
 ALLOWED_HORIZONS = {1, 7, 30}
-ALLOWED_MODELS = {"logistic_regression", "decision_tree", "xgboost", "chatgpt"}
+ALLOWED_MODELS = {"logistic_regression", "decision_tree", "xgboost", "llama"}
 
 app = Flask(__name__)
-
-# app.secret_key = "change-this-to-a-random-secret"  # needed for session + flash
-
-# # simple in-memory user store for demo (not for production)
-# users: Dict[str, Dict[str, str]] = {}
-
-# @app.route("/")
-# def home():
-#     if "user" not in session:
-#         return redirect(url_for("login"))
-#     return render_template("index.html")
-
-
-# @app.route("/login", methods=["GET", "POST"])
-# def login():
-#     if request.method == "POST":
-#         email = request.form.get("email", "").strip()
-#         password = request.form.get("password", "").strip()
-
-#         if email in users and users[email]["password"] == password:
-#             session["user"] = email
-#             return redirect(url_for("home"))
-#         else:
-#             flash("Invalid email or password")
-
-#     return render_template("login.html")
-
-
-# @app.route("/signup", methods=["GET", "POST"])
-# def signup():
-#     if request.method == "POST":
-#         username = request.form.get("username", "").strip()
-#         email = request.form.get("email", "").strip()
-#         password = request.form.get("password", "").strip()
-#         confirm_password = request.form.get("confirm_password", "").strip()
-
-#         if not username or not email or not password or not confirm_password:
-#             flash("Please fill in all fields")
-#             return redirect(url_for("signup"))
-
-#         if password != confirm_password:
-#             flash("Passwords do not match")
-#             return redirect(url_for("signup"))
-
-#         if email in users:
-#             flash("Email already registered")
-#             return redirect(url_for("signup"))
-
-#         users[email] = {
-#             "username": username,
-#             "password": password
-#         }
-
-#         flash("Account created successfully. Please login.")
-#         return redirect(url_for("login"))
-
-#     return render_template("signup.html")
-
-
-# @app.route("/logout")
-# def logout():
-#     session.pop("user", None)
-#     flash("You have been logged out")
-#     return redirect(url_for("login"))
-
-# @app.get("/__debug_users")
-# def __debug_users():
-#     # DO NOT use in production, only for testing
-#     return jsonify(users)
-
 
 
 @app.get("/__debug_paths")
@@ -222,14 +153,55 @@ def output_json():
     return _no_cache(resp)
 
 
+# ── NEW: Live stock chart data route ──────────────────────────
+@app.get("/api/stock-chart")
+def api_stock_chart():
+    VALID_CHART_TICKERS = ["AAPL", "NVDA", "TSLA"]
+    ticker = request.args.get("ticker", "AAPL").upper()
+    period = request.args.get("period", "30d")
+
+    VALID_PERIODS = {"7d", "30d", "3mo", "6mo", "1y"}
+    if ticker not in VALID_CHART_TICKERS:
+        return jsonify({"error": "Invalid ticker"}), 400
+    if period not in VALID_PERIODS:
+        period = "30d"
+
+    try:
+        data = yf.download(ticker, period=period, interval="1d",
+                           progress=False, auto_adjust=False)
+
+        if isinstance(data.columns, pd.MultiIndex):
+            data.columns = [col[0] for col in data.columns]
+
+        dates  = [d.strftime("%Y-%m-%d") for d in data.index]
+        closes = [round(float(v), 2) for v in data["Close"].tolist()]
+
+        current_price = closes[-1] if closes else 0
+        change     = round(closes[-1] - closes[0], 2) if len(closes) >= 2 else 0
+        pct_change = round((change / closes[0]) * 100, 2) if closes and closes[0] else 0
+
+        return jsonify({
+            "ticker":        ticker,
+            "dates":         dates,
+            "closes":        closes,
+            "current_price": current_price,
+            "change":        change,
+            "pct_change":    pct_change,
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+# ──────────────────────────────────────────────────────────────
+
+
 @app.post("/run_predict")
 def run_predict():
     body = request.get_json(silent=True) or {}
 
-    tickers = str(body.get("tickers", "ALL")).strip().upper()
-    horizon = int(body.get("horizon", 7))
-    ticker_for_ui = str(body.get("ticker", "")).strip().upper()
-    model_name = str(body.get("model", "xgboost")).strip().lower()
+    tickers        = str(body.get("tickers", "ALL")).strip().upper()
+    horizon        = int(body.get("horizon", 7))
+    ticker_for_ui  = str(body.get("ticker", "")).strip().upper()
+    model_name     = str(body.get("model", "xgboost")).strip().lower()
 
     err = _validate_inputs(tickers, horizon, model_name)
     if err:
@@ -251,27 +223,27 @@ def run_predict():
     last = _latest_run(data)
 
     picked_result = None
-    picked_error = None
+    picked_error  = None
 
     if last and ticker_for_ui:
         picked_result = _pick_result(last, ticker_for_ui, horizon)
-        picked_error = _pick_error(last, ticker_for_ui)
+        picked_error  = _pick_error(last, ticker_for_ui)
 
     target_date = None
     try:
-        today = datetime.now().date()
+        today       = datetime.now().date()
         target_date = (today + timedelta(days=int(horizon))).isoformat()
     except Exception:
         target_date = None
 
     return _no_cache(make_response(jsonify({
-        "ok": True,
-        "data": data,
+        "ok":         True,
+        "data":       data,
         "latest_run": last,
         "picked": {
-            "ticker": ticker_for_ui or None,
-            "result": picked_result,
-            "error": picked_error,
+            "ticker":      ticker_for_ui or None,
+            "result":      picked_result,
+            "error":       picked_error,
             "target_date": target_date
         }
     }), 200))
