@@ -145,6 +145,8 @@ def run_predict():
     else:
         xgb_error = f"XGBoost only supports AAPL, NVDA, TSLA. Showing LLM insights only for {ticker_ui}."
 
+
+
     llm = _call_llms(ticker_ui, horizon)
 
     return _no_cache(make_response(jsonify({
@@ -234,6 +236,28 @@ def _call_llms(ticker: str, horizon: int) -> dict:
                             "risk_level": "MEDIUM", "price_estimate": None}
 
     return llm_out
+
+@app.get("/api/news")
+def api_news():
+    import feedparser
+    ticker = request.args.get("ticker", "AAPL").strip().upper()
+    url = f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={ticker}&region=US&lang=en-US"
+    try:
+        feed = feedparser.parse(url)
+        articles = []
+        for entry in feed.entries[:6]:
+            articles.append({
+                "title":     entry.get("title", ""),
+                "link":      entry.get("link",  ""),
+                "published": entry.get("published", ""),
+                "summary":   entry.get("summary", "")[:200],
+            })
+        if not articles:
+            raise ValueError(f"No articles found for {ticker}")
+        return _no_cache(make_response(jsonify({"ok": True, "ticker": ticker, "articles": articles})))
+    except Exception as e:
+        return _no_cache(make_response(jsonify({"ok": False, "error": str(e), "articles": []})))
+
 
 
 if __name__ == "__main__":

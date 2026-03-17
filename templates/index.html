@@ -17,14 +17,11 @@
     <div class="sidebar-logo">
       <span class="logo-iris">Market</span>&nbsp;<span class="logo-ai">Oracle</span>
     </div>
-
     <div class="sidebar-section">
       <div class="sidebar-section-label">Recently Searched</div>
       <div id="watchlist"></div>
     </div>
-
     <div class="sidebar-divider"></div>
-
     <div class="sidebar-section">
       <div class="sidebar-section-label">Prediction Horizon</div>
     </div>
@@ -33,7 +30,6 @@
       <button class="h-btn active" data-h="7">7 Days</button>
       <button class="h-btn" data-h="30">30 Days</button>
     </div>
-
     <button class="run-btn" id="runBtn">&#9654; Run Prediction</button>
   </aside>
 
@@ -82,11 +78,20 @@
 
     <!-- RESULTS -->
     <div class="result-grid" id="resultGrid"></div>
+
+    <!-- NEWS -->
+    <div class="news-card" id="newsCard" style="display:none">
+      <div class="news-header">
+        <span class="news-title">📰 Latest News — <span id="newsTicker"></span></span>
+        <span class="news-meta" id="newsMeta"></span>
+      </div>
+      <div class="news-list" id="newsList"></div>
+    </div>
+
   </main>
 </div>
 
 <script>
-// ── STOCK LIST ──
 const STOCKS = [
   {t:"AAPL",n:"Apple Inc."},{t:"NVDA",n:"NVIDIA"},{t:"TSLA",n:"Tesla"},
   {t:"MSFT",n:"Microsoft"},{t:"AMZN",n:"Amazon.com"},{t:"GOOGL",n:"Alphabet"},
@@ -98,13 +103,13 @@ const STOCKS = [
   {t:"BRK-B",n:"Berkshire"},{t:"XOM",n:"ExxonMobil"},{t:"WMT",n:"Walmart"},
 ];
 
-let activeTicker  = "AAPL";
-let activeHorizon = 7;
-let activeRange   = 90;
-let tvChart       = null;
-let candleSeries  = null;
+let activeTicker   = "AAPL";
+let activeHorizon  = 7;
+let activeRange    = 90;
+let tvChart        = null;
+let candleSeries   = null;
+let chartReady     = false;
 let recentSearches = [];
-let chartReady    = false;
 
 // ── THEME ──
 const themeToggle = document.getElementById("themeToggle");
@@ -119,15 +124,11 @@ function rebuildChart() {
     const container = document.getElementById("chartContainer");
     container.innerHTML = "";
     chartReady = false;
-
     if (typeof LightweightCharts === "undefined") {
-      document.getElementById("chartMeta").textContent = "Chart library failed to load. Check internet connection.";
-      resolve();
-      return;
+      document.getElementById("chartMeta").textContent = "Chart library failed to load.";
+      resolve(); return;
     }
-
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-
     tvChart = LightweightCharts.createChart(container, {
       width:  container.clientWidth || 800,
       height: 360,
@@ -141,32 +142,22 @@ function rebuildChart() {
       },
       crosshair: { mode: 1 },
       rightPriceScale: { borderColor: isDark ? "#252836" : "#d4d8ea" },
-      timeScale: {
-        borderColor: isDark ? "#252836" : "#d4d8ea",
-        timeVisible: true,
-        secondsVisible: false,
-      },
+      timeScale: { borderColor: isDark ? "#252836" : "#d4d8ea", timeVisible: true, secondsVisible: false },
     });
-
     candleSeries = tvChart.addCandlestickSeries({
-      upColor:        "#00d4aa",
-      downColor:      "#ff4d6d",
-      borderUpColor:  "#00d4aa",
-      borderDownColor:"#ff4d6d",
-      wickUpColor:    "#00d4aa",
-      wickDownColor:  "#ff4d6d",
+      upColor: "#00d4aa", downColor: "#ff4d6d",
+      borderUpColor: "#00d4aa", borderDownColor: "#ff4d6d",
+      wickUpColor: "#00d4aa", wickDownColor: "#ff4d6d",
     });
-
     window.addEventListener("resize", () => {
       if (tvChart) tvChart.applyOptions({ width: container.clientWidth });
     });
-
     chartReady = true;
     resolve();
   });
 }
 
-// ── LOAD CHART DATA ──
+// ── LOAD CHART ──
 async function loadChart(ticker, days) {
   if (!chartReady || !candleSeries) {
     document.getElementById("chartMeta").textContent = "Chart not ready.";
@@ -186,8 +177,39 @@ async function loadChart(ticker, days) {
     tvChart.timeScale().fitContent();
     document.getElementById("chartMeta").textContent =
       `Last: $${data.last_close?.toFixed(2)} | ${sorted.length} bars`;
-  } catch (e) {
+  } catch(e) {
     document.getElementById("chartMeta").textContent = "Chart error: " + e.message;
+  }
+}
+
+// ── LOAD NEWS ──
+async function loadNews(ticker) {
+  const card  = document.getElementById("newsCard");
+  const list  = document.getElementById("newsList");
+  const meta  = document.getElementById("newsMeta");
+  const label = document.getElementById("newsTicker");
+  card.style.display = "block";
+  label.textContent  = ticker;
+  meta.textContent   = "Loading...";
+  list.innerHTML     = `<div class="news-loading">Fetching latest news for ${ticker}...</div>`;
+  try {
+    const res  = await fetch(`/api/news?ticker=${ticker}`);
+    const data = await res.json();
+    if (!data.ok || !data.articles.length) {
+      list.innerHTML   = `<div class="news-loading">No news found for ${ticker}.</div>`;
+      meta.textContent = "";
+      return;
+    }
+    meta.textContent = `${data.articles.length} articles`;
+    list.innerHTML = data.articles.map(a => `
+      <div class="news-item">
+        <a href="${a.link}" target="_blank" rel="noopener">${a.title}</a>
+        <div class="news-date">${a.published}</div>
+        ${a.summary ? `<div class="news-summary">${a.summary}...</div>` : ""}
+      </div>`).join("");
+  } catch(e) {
+    list.innerHTML   = `<div class="news-loading" style="color:var(--danger)">News error: ${e.message}</div>`;
+    meta.textContent = "";
   }
 }
 
@@ -229,6 +251,7 @@ function buildWatchlist() {
   );
 }
 
+// ── SELECT STOCK ──
 function selectStock(t) {
   activeTicker = t;
   recentSearches = [t, ...recentSearches.filter(x => x !== t)].slice(0, 5);
@@ -237,6 +260,7 @@ function selectStock(t) {
     p.classList.toggle("active", p.dataset.t === t)
   );
   loadChart(t, activeRange);
+  loadNews(t);
   document.getElementById("chartTitle").textContent = t;
 }
 
@@ -253,8 +277,7 @@ searchInput.addEventListener("input", () => {
   searchDropdown.innerHTML = (matches.length ? matches : [{t: q, n: `Search "${q}"`}])
     .map(s => `<div class="search-item" data-t="${s.t}">
       <span class="ticker">${s.t}</span>
-      <span class="name">${s.n}</span></div>`
-    ).join("");
+      <span class="name">${s.n}</span></div>`).join("");
   searchDropdown.classList.add("open");
   searchDropdown.querySelectorAll(".search-item").forEach(item => {
     item.addEventListener("click", () => {
@@ -278,13 +301,13 @@ searchInput.addEventListener("keydown", e => {
 
 // ── RISK HELPERS ──
 function riskClass(r) {
-  const v = (r || "").toUpperCase();
+  const v = (r||"").toUpperCase();
   if (v === "LOW")  return "risk-low";
   if (v === "HIGH") return "risk-high";
   return "risk-med";
 }
 function badgeClass(r) {
-  const v = (r || "").toUpperCase();
+  const v = (r||"").toUpperCase();
   if (v === "LOW")  return "badge-low";
   if (v === "HIGH") return "badge-high";
   return "badge-med";
@@ -293,12 +316,10 @@ function badgeClass(r) {
 // ── RENDER XGBOOST CARD ──
 function renderXGBCard(picked) {
   const r = picked.result;
-  if (!r) {
-    return `<div class="result-card">
-      <div class="rc-header"><span class="rc-model">XGBOOST ML</span></div>
-      <div class="rc-insight" style="margin-top:8px">${picked.error || "No XGBoost result."}</div>
-    </div>`;
-  }
+  if (!r) return `<div class="result-card">
+    <div class="rc-header"><span class="rc-model">XGBOOST ML</span></div>
+    <div class="rc-insight" style="margin-top:8px">${picked.error || "No XGBoost result."}</div>
+  </div>`;
   const probUp   = r.prob_up   != null ? (r.prob_up   * 100).toFixed(1) : "–";
   const probDown = r.prob_down != null ? (r.prob_down * 100).toFixed(1) : "–";
   const conf     = r.prob_up   != null ? Math.round(r.prob_up * 100) : 50;
@@ -326,7 +347,10 @@ function renderXGBCard(picked) {
 
 // ── RENDER LLM CARD ──
 function renderCard(key, data, label) {
-  if (!data) return `<div class="result-card"><div class="rc-header"><span class="rc-model">${label}</span></div><div class="rc-insight" style="margin-top:8px">No data.</div></div>`;
+  if (!data) return `<div class="result-card">
+    <div class="rc-header"><span class="rc-model">${label}</span></div>
+    <div class="rc-insight" style="margin-top:8px">No data.</div>
+  </div>`;
   const risk  = (data.risk_level || "MEDIUM").toUpperCase();
   const price = data.price_estimate ? `$${parseFloat(data.price_estimate).toFixed(2)}` : "–";
   const trend = data.trend || "–";
@@ -349,14 +373,12 @@ document.getElementById("runBtn").addEventListener("click", async () => {
   const dot  = document.getElementById("statusDot");
   const txt  = document.getElementById("statusText");
   const grid = document.getElementById("resultGrid");
-
   btn.disabled    = true;
   dot.className   = "status-dot loading";
   txt.textContent = `Running prediction for ${activeTicker} at ${activeHorizon}d horizon...`;
   grid.innerHTML  = ["XGBOOST ML","GEMINI FLASH","DEEPSEEK V3","GROQ LLAMA"].map(label =>
     `<div class="result-card"><div class="rc-loading">⏳ Calling ${label}...</div></div>`
   ).join("");
-
   try {
     const res  = await fetch("/run_predict", {
       method: "POST",
@@ -373,7 +395,7 @@ document.getElementById("runBtn").addEventListener("click", async () => {
       renderCard("gemini",   llm.gemini,   "GEMINI FLASH") +
       renderCard("deepseek", llm.deepseek, "DEEPSEEK V3")  +
       renderCard("groq",     llm.groq,     "GROQ LLAMA");
-  } catch (e) {
+  } catch(e) {
     dot.className   = "status-dot error";
     txt.textContent = "Error: " + e.message;
     grid.innerHTML  = "";
@@ -382,7 +404,7 @@ document.getElementById("runBtn").addEventListener("click", async () => {
   }
 });
 
-// ── INIT — wait for DOM + chart library ──
+// ── INIT ──
 window.addEventListener("load", () => {
   buildWatchlist();
   rebuildChart().then(() => selectStock("AAPL"));
