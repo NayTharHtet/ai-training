@@ -3645,6 +3645,62 @@
         }
       ],
       "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:34:49+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "UP",
+          "prob_up": 0.6959,
+          "prob_down": 0.3041,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "llm_note": "Based on the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "source": "Yahoo Finance live data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:37:08+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "DOWN",
+          "prob_up": 0.2225,
+          "prob_down": 0.7775,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, there is a 77.75% probability that TSLA's stock price may move downward over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven insight for informational purposes.",
+          "llm_note": "Based on the XGBoost model, there is a 77.75% probability that TSLA's stock price may move downward over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven insight for informational purposes.",
+          "source": "Yahoo Finance live data"
+        }
+      ],
+      "errors": []
     }
   ]
 }
