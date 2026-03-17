@@ -1,348 +1,392 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stock Prediction</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Market Oracle · Stock Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+  <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 </head>
 <body>
-  <div class="wrap">
-    <header class="hero">
-      <div class="brand">
-        <div class="logo">AI</div>
+<div class="bando">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-iris">Market</span>&nbsp;<span class="logo-ai">Oracle</span>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Recently Searched</div>
+      <div id="watchlist"></div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Prediction Horizon</div>
+    </div>
+    <div class="horizon-group">
+      <button class="h-btn" data-h="1">1 Day</button>
+      <button class="h-btn active" data-h="7">7 Days</button>
+      <button class="h-btn" data-h="30">30 Days</button>
+    </div>
+
+    <button class="run-btn" id="runBtn">&#9654; Run Prediction</button>
+  </aside>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search any stock... e.g. AAPL, TSLA, AMZN" autocomplete="off"/>
+      <div class="search-dropdown" id="searchDropdown"></div>
+    </div>
+    <div class="theme-switch-wrap">
+      <span class="theme-icon">🌙</span>
+      <label class="switch">
+        <input type="checkbox" id="themeToggle"/>
+        <span class="slider"></span>
+      </label>
+      <span class="theme-icon">☀️</span>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="status-bar" id="statusBar">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">Select a stock and run prediction.</span>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-card">
+      <div class="chart-header">
         <div>
-          <h1>Stock Prediction</h1>
-          <p>Clean prediction dashboard with note and confidence.</p>
+          <div class="chart-title" id="chartTitle">—</div>
+          <div class="chart-meta" id="chartMeta">Initialising...</div>
+        </div>
+        <div class="chart-range-btns">
+          <button class="range-btn" data-d="7">1W</button>
+          <button class="range-btn" data-d="30">1M</button>
+          <button class="range-btn active" data-d="90">3M</button>
+          <button class="range-btn" data-d="180">6M</button>
+          <button class="range-btn" data-d="365">1Y</button>
+          <button class="range-btn" data-d="1825">5Y</button>
         </div>
       </div>
+      <div id="chartContainer"></div>
+    </div>
 
-    
+    <!-- RESULTS -->
+    <div class="result-grid" id="resultGrid"></div>
+  </main>
+</div>
 
-    </header>
+<script>
+// ── STOCK LIST ──
+const STOCKS = [
+  {t:"AAPL",n:"Apple Inc."},{t:"NVDA",n:"NVIDIA"},{t:"TSLA",n:"Tesla"},
+  {t:"MSFT",n:"Microsoft"},{t:"AMZN",n:"Amazon.com"},{t:"GOOGL",n:"Alphabet"},
+  {t:"META",n:"Meta Platforms"},{t:"NFLX",n:"Netflix"},{t:"AMD",n:"AMD"},
+  {t:"INTC",n:"Intel"},{t:"BABA",n:"Alibaba"},{t:"UBER",n:"Uber"},
+  {t:"COIN",n:"Coinbase"},{t:"PLTR",n:"Palantir"},{t:"SOFI",n:"SoFi"},
+  {t:"SPY",n:"S&P 500 ETF"},{t:"QQQ",n:"Nasdaq ETF"},{t:"DIS",n:"Disney"},
+  {t:"BA",n:"Boeing"},{t:"JPM",n:"JPMorgan"},{t:"V",n:"Visa"},
+  {t:"BRK-B",n:"Berkshire"},{t:"XOM",n:"ExxonMobil"},{t:"WMT",n:"Walmart"},
+];
 
-    <main class="grid">
-      <section class="card">
-        <div class="card-head">Run prediction</div>
-        <div class="card-body">
-          <div class="stack">
-            <div class="field">
-              <label for="stockSelect">Stock</label>
-              <select id="stockSelect">
-                <option value="AAPL">AAPL</option>
-                <option value="TSLA" selected>TSLA</option>
-                <option value="NVDA">NVDA</option>
-              </select>
-            </div>
+let activeTicker  = "AAPL";
+let activeHorizon = 7;
+let activeRange   = 90;
+let tvChart       = null;
+let candleSeries  = null;
+let recentSearches = [];
+let chartReady    = false;
 
-            <div class="field">
-              <label for="horizonSelect">Horizon</label>
-              <select id="horizonSelect">
-                <option value="1">1 day</option>
-                <option value="7" selected>7 days</option>
-                <option value="30">30 days</option>
-              </select>
-            </div>
+// ── THEME ──
+const themeToggle = document.getElementById("themeToggle");
+themeToggle.addEventListener("change", () => {
+  document.documentElement.setAttribute("data-theme", themeToggle.checked ? "light" : "dark");
+  rebuildChart().then(() => loadChart(activeTicker, activeRange));
+});
 
-            <div class="field">
-              <label for="modelSelect">Model</label>
-              <select id="modelSelect">
-                <option value="xgboost" selected>XGBoost</option>
-                <option value="logistic_regression">Logistic Regression</option>
-                <option value="decision_tree">Decision Tree</option>
-                <option value="llama">Groq Llama</option>
-              </select>
-            </div>
+// ── BUILD CHART ──
+function rebuildChart() {
+  return new Promise((resolve) => {
+    const container = document.getElementById("chartContainer");
+    container.innerHTML = "";
+    chartReady = false;
 
-            <button id="btn" class="btn" type="button">Run prediction</button>
-
-            <div class="meta" style="display:none">
-              <div>Backend: <code>POST /run_predict</code></div>
-              <div>Result source: <code>output.json</code></div>
-            </div>
-
-            <div class="status" id="status">Idle.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="card-head">Prediction result</div>
-        <div class="card-body results">
-          <div class="stats-grid">
-            <div class="stat">
-              <div class="label">Stock</div>
-              <div class="value" id="outStock">–</div>
-            </div>
-            <div class="stat">
-              <div class="label">Horizon</div>
-              <div class="value" id="outHorizon">–</div>
-            </div>
-            <div class="stat">
-              <div class="label">Confidence</div>
-              <div class="value" id="outConf">–</div>
-            </div>
-            <div class="stat">
-              <div class="label">Target date</div>
-              <div class="value" id="outDate">–</div>
-            </div>
-          </div>
-
-          <div class="result-grid">
-            <div class="prediction-box">
-              <div class="label">Prediction</div>
-              <div class="pill neutral" id="outPred">–</div>
-            </div>
-            <div class="note-box">
-              <div class="label">Model note</div>
-              <div class="note-text" id="outNote">–</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- ── LIVE STOCK CHART SECTION ── -->
-    <section style="margin: 32px auto; max-width: 900px;">
-      <div class="card">
-        <div class="card-head">📈 Live Stock Price Chart</div>
-        <div class="card-body">
-
-          <!-- Ticker buttons -->
-          <div style="display:flex; gap:8px; margin-bottom:12px;">
-            <button onclick="loadStockChart('AAPL')" id="btn-AAPL" class="ticker-btn active-ticker">AAPL</button>
-            <button onclick="loadStockChart('NVDA')" id="btn-NVDA" class="ticker-btn">NVDA</button>
-            <button onclick="loadStockChart('TSLA')" id="btn-TSLA" class="ticker-btn">TSLA</button>
-          </div>
-
-          <!-- Period buttons -->
-          <div style="display:flex; gap:6px; margin-bottom:16px;">
-            <button onclick="setPeriod('7d')"  id="p-7d"  class="period-btn">7D</button>
-            <button onclick="setPeriod('30d')" id="p-30d" class="period-btn active-period">30D</button>
-            <button onclick="setPeriod('3mo')" id="p-3mo" class="period-btn">3M</button>
-            <button onclick="setPeriod('6mo')" id="p-6mo" class="period-btn">6M</button>
-            <button onclick="setPeriod('1y')"  id="p-1y"  class="period-btn">1Y</button>
-          </div>
-
-          <!-- Price summary -->
-          <div id="stockSummary" style="font-size:18px; margin-bottom:12px; min-height:28px;"></div>
-
-          <!-- Chart canvas -->
-          <canvas id="liveStockChart" height="100"></canvas>
-
-        </div>
-      </div>
-    </section>
-    <!-- ── END LIVE STOCK CHART ── -->
-
-  </div>
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    .ticker-btn {
-      padding: 7px 20px;
-      border: none;
-      border-radius: 6px;
-      background: #444;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .active-ticker {
-      background: #0070f3;
-    }
-    .period-btn {
-      padding: 5px 14px;
-      border-radius: 4px;
-      border: 1px solid #555;
-      background: transparent;
-      color: inherit;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .active-period {
-      border-color: #0070f3;
-      color: #0070f3;
-      font-weight: bold;
-    }
-  </style>
-
-  <script>
-    /* ── Prediction logic (unchanged) ── */
-    const $ = (id) => document.getElementById(id);
-
-    function setStatus(msg) { $("status").textContent = msg; }
-
-    function setPill(text) {
-      const el = $("outPred");
-      el.textContent = text || "–";
-      el.classList.remove("up", "down", "neutral");
-      if (text === "UP") el.classList.add("up");
-      else if (text === "DOWN") el.classList.add("down");
-      else el.classList.add("neutral");
+    if (typeof LightweightCharts === "undefined") {
+      document.getElementById("chartMeta").textContent = "Chart library failed to load. Check internet connection.";
+      resolve();
+      return;
     }
 
-    function fmtPct01(x) {
-      if (x === null || x === undefined || Number.isNaN(Number(x))) return "–";
-      return Math.round(Number(x) * 100) + "%";
-    }
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
-    function clearOutput() {
-      $("outStock").textContent = "–";
-      $("outHorizon").textContent = "–";
-      $("outConf").textContent = "–";
-      $("outDate").textContent = "–";
-      $("outNote").textContent = "–";
-      setPill("–");
-    }
+    tvChart = LightweightCharts.createChart(container, {
+      width:  container.clientWidth || 800,
+      height: 360,
+      layout: {
+        background: { color: isDark ? "#161924" : "#ffffff" },
+        textColor:  isDark ? "#8b8fa8" : "#6b7080",
+      },
+      grid: {
+        vertLines: { color: isDark ? "#252836" : "#e8ebf4" },
+        horzLines: { color: isDark ? "#252836" : "#e8ebf4" },
+      },
+      crosshair: { mode: 1 },
+      rightPriceScale: { borderColor: isDark ? "#252836" : "#d4d8ea" },
+      timeScale: {
+        borderColor: isDark ? "#252836" : "#d4d8ea",
+        timeVisible: true,
+        secondsVisible: false,
+      },
+    });
 
-    function setOutputFromResult(r) {
-      $("outStock").textContent = r.ticker ?? "–";
-      $("outHorizon").textContent = r.horizon_days != null ? `${r.horizon_days} day(s)` : "–";
-      setPill(r.direction ?? "–");
-      const pu = r.prob_up;
-      const pd = r.prob_down;
-      let conf = "–";
-      if (pu != null || pd != null) {
-        conf = fmtPct01(Math.max(pu ?? 0, pd ?? 0));
-      }
-      $("outConf").textContent = conf;
-      $("outDate").textContent = "–";
-      $("outNote").textContent = r.note ?? r.llm_note ?? "–";
-    }
+    candleSeries = tvChart.addCandlestickSeries({
+      upColor:        "#00d4aa",
+      downColor:      "#ff4d6d",
+      borderUpColor:  "#00d4aa",
+      borderDownColor:"#ff4d6d",
+      wickUpColor:    "#00d4aa",
+      wickDownColor:  "#ff4d6d",
+    });
 
-    async function runAndShow() {
-      clearOutput();
-      const ticker  = $("stockSelect").value;
-      const horizon = Number($("horizonSelect").value);
-      const model   = $("modelSelect").value;
-      setStatus("Running prediction...");
-      try {
-        const res = await fetch("/run_predict", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ tickers: ticker, horizon, ticker, model })
-        });
-        const payload = await res.json();
-        if (!res.ok || !payload.ok) {
-          setStatus("Error: " + (payload.error || "backend failed"));
-          return;
-        }
-        const picked = payload.picked || {};
-        if (picked.result) {
-          setOutputFromResult(picked.result);
-          $("outDate").textContent = picked.target_date ?? picked.result.as_of_date ?? "–";
-          setStatus("Done.");
-          return;
-        }
-        if (picked.error) {
-          $("outStock").textContent = ticker;
-          $("outHorizon").textContent = horizon + " day(s)";
-          $("outNote").textContent = picked.error.error || "unknown error";
-          setPill("–");
-          setStatus("Ticker failed: " + (picked.error.error || "unknown error"));
-          return;
-        }
-        setStatus("No result returned.");
-      } catch (e) {
-        console.error(e);
-        setStatus("Error: cannot reach backend.");
-      }
-    }
+    window.addEventListener("resize", () => {
+      if (tvChart) tvChart.applyOptions({ width: container.clientWidth });
+    });
 
-    $("btn").addEventListener("click", runAndShow);
+    chartReady = true;
+    resolve();
+  });
+}
 
-    /* ── Live stock chart logic ── */
-    let currentTicker = 'AAPL';
-    let currentPeriod = '30d';
-    let stockChart    = null;
-
-    function setPeriod(period) {
-      currentPeriod = period;
-      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active-period'));
-      document.getElementById('p-' + period).classList.add('active-period');
-      loadStockChart(currentTicker);
-    }
-
-    
-
-// Remember user preference on page reload
-(function() {
-  const saved = localStorage.getItem('theme');
-  if (saved === 'light') {
-    document.body.classList.add('light');
-    document.getElementById('themeToggle').textContent = '☀️ Light';
+// ── LOAD CHART DATA ──
+async function loadChart(ticker, days) {
+  if (!chartReady || !candleSeries) {
+    document.getElementById("chartMeta").textContent = "Chart not ready.";
+    return;
   }
-})();
-
-
-    async function loadStockChart(ticker) {
-      currentTicker = ticker;
-      document.querySelectorAll('.ticker-btn').forEach(b => b.classList.remove('active-ticker'));
-      document.getElementById('btn-' + ticker).classList.add('active-ticker');
-      document.getElementById('stockSummary').innerHTML = 'Loading...';
-
-      const res  = await fetch(`/api/stock-chart?ticker=${ticker}&period=${currentPeriod}`);
-      const data = await res.json();
-
-      if (data.error) {
-        document.getElementById('stockSummary').innerHTML = 'Error: ' + data.error;
-        return;
-      }
-
-      const color = data.change >= 0 ? '#22c55e' : '#ef4444';
-      const arrow = data.change >= 0 ? '▲' : '▼';
-      const sign  = data.change >= 0 ? '+' : '';
-
-      document.getElementById('stockSummary').innerHTML =
-        `<strong>${data.ticker}</strong> &nbsp;
-         <span style="font-size:22px; font-weight:bold;">$${data.current_price}</span> &nbsp;
-         <span style="color:${color}">${arrow} ${sign}${data.change} (${sign}${data.pct_change}%)</span>`;
-
-      if (stockChart) stockChart.destroy();
-
-      const ctx = document.getElementById('liveStockChart').getContext('2d');
-      stockChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: data.dates,
-          datasets: [{
-            label: data.ticker + ' Close Price',
-            data: data.closes,
-            borderColor: color,
-            backgroundColor: color + '22',
-            borderWidth: 2,
-            pointRadius: 0,
-            fill: true,
-            tension: 0.3
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: { label: ctx => ' $' + ctx.parsed.y.toFixed(2) }
-            }
-          },
-          scales: {
-            x: {
-              ticks: { maxTicksLimit: 8 },
-              title: { display: true, text: 'Date' }
-            },
-            y: {
-              title: { display: true, text: 'Price (USD)' }
-            }
-          }
-        }
-      });
+  document.getElementById("chartTitle").textContent = ticker;
+  document.getElementById("chartMeta").textContent  = "Loading chart...";
+  try {
+    const res  = await fetch(`/api/chart?ticker=${ticker}&days=${days}`);
+    const data = await res.json();
+    if (!data.ok || !data.candles || !data.candles.length) {
+      document.getElementById("chartMeta").textContent = "Live data unavailable: " + (data.error || "no candles");
+      return;
     }
+    const sorted = [...data.candles].sort((a, b) => a.time - b.time);
+    candleSeries.setData(sorted);
+    tvChart.timeScale().fitContent();
+    document.getElementById("chartMeta").textContent =
+      `Last: $${data.last_close?.toFixed(2)} | ${sorted.length} bars`;
+  } catch (e) {
+    document.getElementById("chartMeta").textContent = "Chart error: " + e.message;
+  }
+}
 
-    // Auto-load AAPL chart on page open
-    loadStockChart('AAPL');
-  </script>
+// ── RANGE BUTTONS ──
+document.querySelectorAll(".range-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".range-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeRange = parseInt(btn.dataset.d);
+    loadChart(activeTicker, activeRange);
+  });
+});
+
+// ── HORIZON BUTTONS ──
+document.querySelectorAll(".h-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".h-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeHorizon = parseInt(btn.dataset.h);
+  });
+});
+
+// ── RECENTLY SEARCHED ──
+function buildWatchlist() {
+  const el = document.getElementById("watchlist");
+  if (!recentSearches.length) {
+    el.innerHTML = `<div style="font-size:.78rem;color:var(--text2);padding:6px 4px;">No recent searches yet.</div>`;
+    return;
+  }
+  el.innerHTML = recentSearches.map(t => {
+    const info = STOCKS.find(s => s.t === t) || { n: t };
+    return `<div class="stock-pill${t === activeTicker ? " active" : ""}" data-t="${t}">
+      <span class="sp-ticker">${t}</span>
+      <span class="sp-name" style="font-size:.78rem;color:var(--text2);flex:1">${info.n.split(" ")[0]}</span>
+    </div>`;
+  }).join("");
+  el.querySelectorAll(".stock-pill").forEach(p =>
+    p.addEventListener("click", () => selectStock(p.dataset.t))
+  );
+}
+
+function selectStock(t) {
+  activeTicker = t;
+  recentSearches = [t, ...recentSearches.filter(x => x !== t)].slice(0, 5);
+  buildWatchlist();
+  document.querySelectorAll(".stock-pill").forEach(p =>
+    p.classList.toggle("active", p.dataset.t === t)
+  );
+  loadChart(t, activeRange);
+  document.getElementById("chartTitle").textContent = t;
+}
+
+// ── SEARCH ──
+const searchInput    = document.getElementById("searchInput");
+const searchDropdown = document.getElementById("searchDropdown");
+
+searchInput.addEventListener("input", () => {
+  const q = searchInput.value.trim().toUpperCase();
+  if (!q) { searchDropdown.classList.remove("open"); return; }
+  const matches = STOCKS.filter(s =>
+    s.t.includes(q) || s.n.toUpperCase().includes(q)
+  ).slice(0, 8);
+  searchDropdown.innerHTML = (matches.length ? matches : [{t: q, n: `Search "${q}"`}])
+    .map(s => `<div class="search-item" data-t="${s.t}">
+      <span class="ticker">${s.t}</span>
+      <span class="name">${s.n}</span></div>`
+    ).join("");
+  searchDropdown.classList.add("open");
+  searchDropdown.querySelectorAll(".search-item").forEach(item => {
+    item.addEventListener("click", () => {
+      selectStock(item.dataset.t);
+      searchInput.value = "";
+      searchDropdown.classList.remove("open");
+    });
+  });
+});
+
+document.addEventListener("click", e => {
+  if (!e.target.closest(".topbar-search")) searchDropdown.classList.remove("open");
+});
+
+searchInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const q = searchInput.value.trim().toUpperCase();
+    if (q) { selectStock(q); searchInput.value = ""; searchDropdown.classList.remove("open"); }
+  }
+});
+
+// ── RISK HELPERS ──
+function riskClass(r) {
+  const v = (r || "").toUpperCase();
+  if (v === "LOW")  return "risk-low";
+  if (v === "HIGH") return "risk-high";
+  return "risk-med";
+}
+function badgeClass(r) {
+  const v = (r || "").toUpperCase();
+  if (v === "LOW")  return "badge-low";
+  if (v === "HIGH") return "badge-high";
+  return "badge-med";
+}
+
+// ── RENDER XGBOOST CARD ──
+function renderXGBCard(picked) {
+  const r = picked.result;
+  if (!r) {
+    return `<div class="result-card">
+      <div class="rc-header"><span class="rc-model">XGBOOST ML</span></div>
+      <div class="rc-insight" style="margin-top:8px">${picked.error || "No XGBoost result."}</div>
+    </div>`;
+  }
+  const probUp   = r.prob_up   != null ? (r.prob_up   * 100).toFixed(1) : "–";
+  const probDown = r.prob_down != null ? (r.prob_down * 100).toFixed(1) : "–";
+  const conf     = r.prob_up   != null ? Math.round(r.prob_up * 100) : 50;
+  let risk = "MEDIUM";
+  if (r.prob_down != null) {
+    if      (r.prob_down >= 0.6)  risk = "HIGH";
+    else if (r.prob_down <= 0.35) risk = "LOW";
+  }
+  return `<div class="result-card">
+    <div class="rc-header">
+      <span class="rc-model">XGBOOST ML</span>
+      <span class="rc-badge ${badgeClass(risk)}">RISK ${Math.round((r.prob_down||0.3)*100)}</span>
+    </div>
+    <div class="rc-risk-label ${riskClass(risk)}">${risk} RISK</div>
+    <div class="rc-row"><span class="label">Direction</span><span class="value">${r.direction||"–"}</span></div>
+    <div class="rc-row"><span class="label">Confidence</span><span class="value">${probUp}%</span></div>
+    <div class="rc-conf-bar-bg"><div class="rc-conf-bar" style="width:${conf}%"></div></div>
+    <div class="rc-row"><span class="label">As of</span><span class="value">${r.as_of_date||"–"}</span></div>
+    <div class="rc-row"><span class="label">Target date</span><span class="value">${picked.target_date||"–"}</span></div>
+    <div class="rc-divider"></div>
+    <div class="rc-insight">XGBoost predicts ${r.direction} with ${probUp}% confidence. Down prob: ${probDown}%, Up prob: ${probUp}%.</div>
+    ${r.note ? `<div class="rc-insight" style="margin-top:6px;font-style:italic">${r.note}</div>` : ""}
+  </div>`;
+}
+
+// ── RENDER LLM CARD ──
+function renderCard(key, data, label) {
+  if (!data) return `<div class="result-card"><div class="rc-header"><span class="rc-model">${label}</span></div><div class="rc-insight" style="margin-top:8px">No data.</div></div>`;
+  const risk  = (data.risk_level || "MEDIUM").toUpperCase();
+  const price = data.price_estimate ? `$${parseFloat(data.price_estimate).toFixed(2)}` : "–";
+  const trend = data.trend || "–";
+  return `<div class="result-card">
+    <div class="rc-header">
+      <span class="rc-model">${label}</span>
+      <span class="rc-badge ${badgeClass(risk)}">${risk}</span>
+    </div>
+    <div class="rc-risk-label ${riskClass(risk)}">${risk} RISK</div>
+    <div class="rc-row"><span class="label">Price estimate</span><span class="value">${price}</span></div>
+    <div class="rc-row"><span class="label">Trend</span><span class="value">${trend}</span></div>
+    <div class="rc-divider"></div>
+    <div class="rc-insight">${data.insight || "–"}</div>
+  </div>`;
+}
+
+// ── RUN PREDICTION ──
+document.getElementById("runBtn").addEventListener("click", async () => {
+  const btn  = document.getElementById("runBtn");
+  const dot  = document.getElementById("statusDot");
+  const txt  = document.getElementById("statusText");
+  const grid = document.getElementById("resultGrid");
+
+  btn.disabled    = true;
+  dot.className   = "status-dot loading";
+  txt.textContent = `Running prediction for ${activeTicker} at ${activeHorizon}d horizon...`;
+  grid.innerHTML  = ["XGBOOST ML","GEMINI FLASH","DEEPSEEK V3","GROQ LLAMA"].map(label =>
+    `<div class="result-card"><div class="rc-loading">⏳ Calling ${label}...</div></div>`
+  ).join("");
+
+  try {
+    const res  = await fetch("/run_predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ticker: activeTicker, horizon: activeHorizon }),
+    });
+    const data = await res.json();
+    dot.className   = "status-dot ok";
+    txt.textContent = `Prediction complete for ${activeTicker} at ${activeHorizon}d horizon.`;
+    const picked = data.picked || {};
+    const llm    = data.llm    || {};
+    grid.innerHTML =
+      renderXGBCard(picked) +
+      renderCard("gemini",   llm.gemini,   "GEMINI FLASH") +
+      renderCard("deepseek", llm.deepseek, "DEEPSEEK V3")  +
+      renderCard("groq",     llm.groq,     "GROQ LLAMA");
+  } catch (e) {
+    dot.className   = "status-dot error";
+    txt.textContent = "Error: " + e.message;
+    grid.innerHTML  = "";
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// ── INIT — wait for DOM + chart library ──
+window.addEventListener("load", () => {
+  buildWatchlist();
+  rebuildChart().then(() => selectStock("AAPL"));
+});
+</script>
 </body>
 </html>

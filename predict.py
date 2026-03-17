@@ -12,14 +12,11 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 from groq import Groq
-import google.generativeai as genai
-
 
 DEFAULT_MODEL_PATH = "model_multi.pkl"
 DEFAULT_OUTPUT_PATH = "output.json"
-VALID_TICKERS = ["AAPL", "NVDA", "TSLA"]
+VALID_TICKERS  = ["AAPL", "NVDA", "TSLA"]
 VALID_HORIZONS = [1, 7, 30]
-VALID_MODEL_NAMES = ["logistic_regression", "decision_tree", "xgboost", "gemini", "llama"]  # ← ADDED llama
 
 
 def utc_now_iso() -> str:
@@ -27,56 +24,13 @@ def utc_now_iso() -> str:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Load trained models, fetch live data, predict, call Groq, and write output.json"
-    )
-    parser.add_argument("--tickers", type=str, default="ALL")
-    parser.add_argument("--horizon", type=int, default=7, choices=VALID_HORIZONS)
+    parser = argparse.ArgumentParser(description="XGBoost predictor with LLM notes")
+    parser.add_argument("--tickers",    type=str, default="ALL")
+    parser.add_argument("--horizon",    type=int, default=7, choices=VALID_HORIZONS)
     parser.add_argument("--model-path", type=str, default=DEFAULT_MODEL_PATH)
-    parser.add_argument("--model-name", type=str, default="xgboost", choices=VALID_MODEL_NAMES)
-    parser.add_argument("--output", type=str, default=DEFAULT_OUTPUT_PATH)
-    parser.add_argument("--period", type=str, default="6mo")
+    parser.add_argument("--output",     type=str, default=DEFAULT_OUTPUT_PATH)
+    parser.add_argument("--period",     type=str, default="6mo")
     return parser.parse_args()
-
-
-def interactive_prompt() -> tuple[str, int, str, str, str, str]:
-    print("\n=== Stock Predictor ===")
-    print("Tickers available: AAPL, NVDA, TSLA")
-    tickers = input("Choose ticker(s) [ALL/AAPL/NVDA/TSLA or comma separated] (default ALL): ").strip()
-    if not tickers:
-        tickers = "ALL"
-
-    print("\nPrediction horizon:")
-    print("1 = 1 day | 7 = 7 days | 30 = 30 days")
-    horizon_raw = input("Choose horizon (default 7): ").strip()
-    try:
-        horizon = int(horizon_raw) if horizon_raw else 7
-    except ValueError:
-        horizon = 7
-
-    print("\nModel selection:")
-    print("1 = logistic_regression")
-    print("2 = decision_tree")
-    print("3 = xgboost")
-    print("4 = gemini")
-    print("5 = llama")
-    model_choice = input("Choose model (default xgboost): ").strip().lower()
-
-    model_map = {
-        "1": "logistic_regression",
-        "2": "decision_tree",
-        "3": "xgboost",
-        "4": "gemini",
-        "5": "llama",
-        "logistic_regression": "logistic_regression",
-        "decision_tree": "decision_tree",
-        "xgboost": "xgboost",
-        "gemini": "gemini",
-        "llama": "llama",
-    }
-    model_name = model_map.get(model_choice, "xgboost")
-
-    return tickers, horizon, DEFAULT_MODEL_PATH, model_name, DEFAULT_OUTPUT_PATH, "6mo"
 
 
 def normalize_requested_tickers(tickers_raw: str) -> List[str]:
@@ -93,12 +47,12 @@ def normalize_requested_tickers(tickers_raw: str) -> List[str]:
 def load_artifact(model_path: str) -> Dict[str, Any]:
     path = Path(model_path).expanduser().resolve()
     if not path.exists():
-        raise FileNotFoundError(f"model file not found: {path}")
+        raise FileNotFoundError(f"Model file not found: {path}")
     artifact = joblib.load(path)
     required_keys = {"models", "feature_columns", "base_features", "targets"}
     missing = required_keys - set(artifact.keys())
     if missing:
-        raise ValueError(f"model artifact missing keys: {sorted(missing)}")
+        raise ValueError(f"Model artifact missing keys: {sorted(missing)}")
     return artifact
 
 
@@ -115,7 +69,7 @@ def fetch_live_data(ticker: str, period: str) -> pd.DataFrame:
     expected_cols = ["Date", "Open", "High", "Low", "Close", "Volume"]
     missing = [c for c in expected_cols if c not in df.columns]
     if missing:
-        raise ValueError(f"Missing expected Yahoo columns for {ticker}: {missing}")
+        raise ValueError(f"Missing expected columns for {ticker}: {missing}")
     df["Ticker"] = ticker
     return df
 
@@ -126,13 +80,13 @@ def build_live_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna(subset=["Date"]).sort_values("Date").reset_index(drop=True)
     for col in ["Open", "High", "Low", "Close", "Volume"]:
         df[col] = pd.to_numeric(df[col], errors="coerce")
-    df["ret_1"] = df["Close"].pct_change(1)
-    df["ret_5"] = df["Close"].pct_change(5)
-    df["ret_20"] = df["Close"].pct_change(20)
-    df["vol_5"] = df["ret_1"].rolling(5).std()
-    df["vol_20"] = df["ret_1"].rolling(20).std()
-    df["ma_5"] = df["Close"].rolling(5).mean()
-    df["ma_20"] = df["Close"].rolling(20).mean()
+    df["ret_1"]    = df["Close"].pct_change(1)
+    df["ret_5"]    = df["Close"].pct_change(5)
+    df["ret_20"]   = df["Close"].pct_change(20)
+    df["vol_5"]    = df["ret_1"].rolling(5).std()
+    df["vol_20"]   = df["ret_1"].rolling(20).std()
+    df["ma_5"]     = df["Close"].rolling(5).mean()
+    df["ma_20"]    = df["Close"].rolling(20).mean()
     df["ma_ratio"] = df["ma_5"] / df["ma_20"]
     df = df.replace([np.inf, -np.inf], np.nan)
     return df
@@ -152,7 +106,7 @@ def build_model_input_row(
     if working.empty:
         raise ValueError(f"Not enough recent data to compute features for {ticker}")
     latest_row = working.iloc[[-1]].copy()
-    as_of_row = latest_row.iloc[0]
+    as_of_row  = latest_row.iloc[0]
     x = latest_row[base_features + ["Ticker"]].copy()
     x = pd.get_dummies(x, columns=["Ticker"], prefix="Ticker")
     for col in feature_columns:
@@ -167,84 +121,14 @@ def build_model_input_row(
 
 def safe_float(val) -> float:
     try:
-        if hasattr(val, "item"):
-            return float(val.item())
-        if hasattr(val, "iloc"):
-            return float(val.iloc[0])
+        if hasattr(val, "item"):  return float(val.item())
+        if hasattr(val, "iloc"):  return float(val.iloc[0])
         return float(val)
     except Exception:
         return 0.0
 
 
-def generate_gemini_prediction(
-    *,
-    ticker: str,
-    horizon: int,
-    latest_row: pd.Series,
-) -> Dict[str, Any]:
-    gemini_api_key = os.getenv("GEMINI_API_KEY")
-    if not gemini_api_key:
-        raise ValueError("GEMINI_API_KEY is not set.")
-
-    genai.configure(api_key=gemini_api_key)
-    model = genai.GenerativeModel("gemini-1.5-flash")
-
-    feature_summary = {
-        "Open":     safe_float(latest_row.get("Open", 0)),
-        "High":     safe_float(latest_row.get("High", 0)),
-        "Low":      safe_float(latest_row.get("Low", 0)),
-        "Close":    safe_float(latest_row.get("Close", 0)),
-        "Volume":   safe_float(latest_row.get("Volume", 0)),
-        "ret_1":    safe_float(latest_row.get("ret_1", 0)),
-        "ret_5":    safe_float(latest_row.get("ret_5", 0)),
-        "ret_20":   safe_float(latest_row.get("ret_20", 0)),
-        "vol_5":    safe_float(latest_row.get("vol_5", 0)),
-        "vol_20":   safe_float(latest_row.get("vol_20", 0)),
-        "ma_5":     safe_float(latest_row.get("ma_5", 0)),
-        "ma_20":    safe_float(latest_row.get("ma_20", 0)),
-        "ma_ratio": safe_float(latest_row.get("ma_ratio", 0)),
-    }
-
-    prompt = f"""
-You are helping with a university stock prediction project.
-
-Ticker: {ticker}
-Prediction horizon: {horizon} day(s)
-
-Latest engineered features:
-{json.dumps(feature_summary, indent=2)}
-
-Return ONLY valid JSON in this exact format, no extra text, no markdown:
-{{
-  "direction": "UP" or "DOWN",
-  "prob_up": number between 0 and 1,
-  "reason": "one short sentence"
-}}
-
-Be cautious and neutral. Do not give financial advice.
-"""
-
-    response = model.generate_content(prompt)
-    text = response.text.strip()
-
-    if text.startswith("```"):
-        text = text.split("```")[1]
-        if text.startswith("json"):
-            text = text[4:]
-    text = text.strip()
-
-    parsed = json.loads(text)
-    direction = str(parsed["direction"]).upper()
-    prob_up = float(parsed["prob_up"])
-    reason = str(parsed.get("reason", "")).strip()
-
-    if direction not in {"UP", "DOWN"}:
-        raise ValueError("Gemini returned invalid direction.")
-
-    prob_up = max(0.0, min(1.0, prob_up))
-    return {"direction": direction, "prob_up": prob_up, "reason": reason}
-
-
+# ── LLM NOTE via Groq (free) ─────────────────────────────────────
 def generate_llm_note(
     client: Groq | None,
     *,
@@ -252,44 +136,44 @@ def generate_llm_note(
     horizon: int,
     direction: str,
     prob_up: float,
-    expected_return: float | None,
+    prob_down: float,
     as_of_date: str,
-    model_name: str,
-    model_reason: str | None = None,
 ) -> str:
     if client is None:
-        return "Groq note unavailable because GROQ_API_KEY is not set."
-
-    expected_return_text = f"{expected_return:.4f}" if expected_return is not None else "N/A"
-    model_reason_text = model_reason if model_reason else "No extra model reason available."
+        return "LLM note unavailable: GROQ_API_KEY not set."
 
     prompt = (
         f"You are helping explain a stock prediction to a university project user.\n"
-        f"Ticker: {ticker}\n"
-        f"Model used: {model_name}\n"
-        f"Horizon: {horizon} day(s)\n"
+        f"Ticker: {ticker} | Horizon: {horizon} day(s) | Model: XGBoost\n"
         f"Predicted direction: {direction}\n"
-        f"Probability of UP: {prob_up:.4f}\n"
-        f"Expected return estimate: {expected_return_text}\n"
-        f"Model reason: {model_reason_text}\n"
+        f"Probability UP: {prob_up:.2%} | Probability DOWN: {prob_down:.2%}\n"
         f"Data as of: {as_of_date}\n\n"
         f"Write 2 short sentences only. Keep it neutral. "
         f"Do not claim certainty. Mention this is model-based and not financial advice."
     )
 
     try:
-        response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+        stream = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
             messages=[
-                {"role": "system", "content": "You write short, neutral financial notes for dashboard output."},
-                {"role": "user", "content": prompt},
+                {"role": "system", "content": "You write short, neutral financial notes for a dashboard."},
+                {"role": "user",   "content": prompt},
             ],
             temperature=0.3,
             max_completion_tokens=120,
+            stream=True,
         )
-        return response.choices[0].message.content.strip()
+        full_note = ""
+        print(f"[Groq] Note for {ticker}: ", end="", flush=True)
+        for chunk in stream:
+            delta = chunk.choices[0].delta.content or ""
+            full_note += delta
+            print(delta, end="", flush=True)
+        print()
+        return full_note.strip()
     except Exception as e:
         return f"Groq note unavailable: {e}"
+# ─────────────────────────────────────────────────────────────────
 
 
 def append_run(output_path: Path, run_entry: Dict[str, Any]) -> None:
@@ -310,36 +194,35 @@ def run_pipeline(
     tickers_raw: str,
     horizon: int,
     model_path: str,
-    model_name: str,
     output_path: str,
     period: str,
 ) -> int:
-    artifact = load_artifact(model_path)
-    models_by_name: Dict[str, Dict[int, Any]] = artifact["models"]
+    artifact       = load_artifact(model_path)
+    models_by_name = artifact["models"]
     feature_columns: List[str] = artifact["feature_columns"]
-    base_features: List[str] = artifact["base_features"]
+    base_features:   List[str] = artifact["base_features"]
 
-    # ← UPDATED: skip ML model load for both gemini and llama
-    selected_model = None
-    if model_name not in ("gemini", "llama"):
-        if model_name not in models_by_name:
-            raise ValueError(f"No trained model group found for model '{model_name}'")
-        models_for_selected_name = models_by_name[model_name]
-        if horizon not in models_for_selected_name:
-            raise ValueError(f"No trained model found for model '{model_name}' and horizon {horizon}")
-        selected_model = models_for_selected_name[horizon]
+    # Always XGBoost — only real ML model
+    if "xgboost" not in models_by_name:
+        raise ValueError("No trained XGBoost model found in artifact.")
+    xgb_models = models_by_name["xgboost"]
+    if horizon not in xgb_models:
+        raise ValueError(f"No XGBoost model found for horizon {horizon}. Available: {list(xgb_models.keys())}")
+    selected_model = xgb_models[horizon]
 
     requested_tickers = normalize_requested_tickers(tickers_raw)
 
+    groq_client = None
     groq_api_key = os.getenv("GROQ_API_KEY")
-    groq_client = Groq(api_key=groq_api_key) if groq_api_key else None
+    if groq_api_key:
+        groq_client = Groq(api_key=groq_api_key)
 
     results: List[Dict[str, Any]] = []
-    errors: List[Dict[str, str]] = []
+    errors:  List[Dict[str, str]] = []
 
     for ticker in requested_tickers:
         try:
-            raw_df = fetch_live_data(ticker, period)
+            raw_df  = fetch_live_data(ticker, period)
             feat_df = build_live_features(raw_df)
             x_latest, latest_row = build_model_input_row(
                 feat_df,
@@ -348,69 +231,43 @@ def run_pipeline(
                 base_features=base_features,
             )
 
-            if model_name == "gemini":
-                gemini_pred = generate_gemini_prediction(
-                    ticker=ticker,
-                    horizon=horizon,
-                    latest_row=latest_row,
-                )
-                direction = gemini_pred["direction"]
-                prob_up = gemini_pred["prob_up"]
-                model_reason = gemini_pred.get("reason")
+            # XGBoost prediction
+            pred   = int(selected_model.predict(x_latest)[0])
+            prob_up = 0.5
+            if hasattr(selected_model, "predict_proba"):
+                proba = selected_model.predict_proba(x_latest)[0]
+                if len(proba) >= 2:
+                    prob_up = float(proba[1])
 
-            elif model_name == "llama":
-                # ← ADDED: llama uses xgboost for prediction, Groq writes the note
-                fallback = models_by_name.get("xgboost", {}).get(horizon)
-                if fallback is None:
-                    raise ValueError("xgboost fallback model not found for llama mode")
-                pred = int(fallback.predict(x_latest)[0])
-                prob_up = None
-                if hasattr(fallback, "predict_proba"):
-                    proba = fallback.predict_proba(x_latest)[0]
-                    if len(proba) >= 2:
-                        prob_up = float(proba[1])
-                direction = "UP" if pred == 1 else "DOWN"
-                model_reason = "Prediction by XGBoost, explanation by Groq Llama"
-
-            else:
-                pred = int(selected_model.predict(x_latest)[0])
-                prob_up = None
-                if hasattr(selected_model, "predict_proba"):
-                    proba = selected_model.predict_proba(x_latest)[0]
-                    if len(proba) >= 2:
-                        prob_up = float(proba[1])
-                direction = "UP" if pred == 1 else "DOWN"
-                model_reason = None
-
-            expected_return = None
+            direction  = "UP" if pred == 1 else "DOWN"
+            prob_down  = round(1.0 - prob_up, 4)
+            prob_up    = round(prob_up, 4)
             as_of_date = pd.to_datetime(latest_row["Date"]).strftime("%Y-%m-%d")
 
+            # Groq generates the explanatory note
             llm_note = generate_llm_note(
                 groq_client,
                 ticker=ticker,
                 horizon=horizon,
                 direction=direction,
-                prob_up=prob_up if prob_up is not None else 0.5,
-                expected_return=expected_return,
+                prob_up=prob_up,
+                prob_down=prob_down,
                 as_of_date=as_of_date,
-                model_name=model_name,
-                model_reason=model_reason,
             )
 
-            result = {
-                "ticker": ticker,
-                "horizon_days": horizon,
-                "model_name": model_name,
-                "as_of_date": as_of_date,
-                "direction": direction,
-                "prob_up": prob_up,
-                "expected_return": expected_return,
-                "model_reason": model_reason,
-                "note": llm_note,
-                "llm_note": llm_note,
-                "source": "Yahoo Finance live/recent market data",
-            }
-            results.append(result)
+            results.append({
+                "ticker":        ticker,
+                "horizon_days":  horizon,
+                "model_name":    "xgboost",
+                "as_of_date":    as_of_date,
+                "direction":     direction,
+                "prob_up":       prob_up,
+                "prob_down":     prob_down,
+                "expected_return": None,
+                "note":          llm_note,
+                "llm_note":      llm_note,
+                "source":        "Yahoo Finance live data",
+            })
 
         except Exception as e:
             errors.append({"ticker": ticker, "error": str(e)})
@@ -418,32 +275,30 @@ def run_pipeline(
     run_entry = {
         "run_at": utc_now_iso(),
         "params": {
-            "tickers": requested_tickers,
+            "tickers":      requested_tickers,
             "horizon_days": horizon,
-            "model_name": model_name,
-            "model_path": str(Path(model_path).expanduser().resolve()),
-            "period": period,
+            "model_name":   "xgboost",
+            "model_path":   str(Path(model_path).expanduser().resolve()),
+            "period":       period,
         },
         "results": results,
-        "errors": errors,
+        "errors":  errors,
     }
 
     output_path_p = Path(output_path).expanduser().resolve()
     append_run(output_path_p, run_entry)
 
-    print(f"[OK] Wrote {len(results)} prediction(s) to: {output_path_p}")
+    print(f"\n[OK] Wrote {len(results)} prediction(s) to: {output_path_p}")
     if errors:
-        print(f"[WARN] {len(errors)} ticker(s) failed. See 'errors' in the JSON.")
-
+        print(f"[WARN] {len(errors)} ticker(s) failed.")
     if results:
-        print("\nLatest prediction summary:")
+        print("\nSummary:")
         for item in results:
             print(
-                f"- {item['ticker']} ({item['horizon_days']}d, {item['model_name']}): {item['direction']}"
-                f" | prob_up={item['prob_up']}"
+                f"  {item['ticker']} | {item['horizon_days']}d | {item['direction']}"
+                f" | prob_up={item['prob_up']} | prob_down={item['prob_down']}"
                 f" | as_of={item['as_of_date']}"
             )
-
     return 0
 
 
@@ -453,7 +308,6 @@ def main() -> int:
         tickers_raw=args.tickers,
         horizon=args.horizon,
         model_path=args.model_path,
-        model_name=args.model_name,
         output_path=args.output,
         period=args.period,
     )
@@ -461,18 +315,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
-
-    if len(sys.argv) == 1:
-        tickers, horizon, model_path, model_name, output_path, period = interactive_prompt()
-        raise SystemExit(
-            run_pipeline(
-                tickers_raw=tickers,
-                horizon=horizon,
-                model_path=model_path,
-                model_name=model_name,
-                output_path=output_path,
-                period=period,
-            )
-        )
-    else:
-        raise SystemExit(main())
+    raise SystemExit(main())
