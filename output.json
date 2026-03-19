@@ -1,0 +1,3706 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-03-05T19:03:41Z",
+  "runs": [
+    {
+      "run_at": "2026-03-13T13:06:31+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "gemini",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-15T11:09:22+00:00",
+      "params": {
+        "tickers": [
+          "AAPL",
+          "NVDA",
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "gemini",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "AAPL",
+          "error": "404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+        },
+        {
+          "ticker": "NVDA",
+          "error": "404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+        },
+        {
+          "ticker": "TSLA",
+          "error": "404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-15T11:27:31+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T11:28:03+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5013675556171031,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 50.14%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 50.14%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T11:28:45+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.49800796812749004,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our decision_tree model, the predicted direction for AAPL stock over the next 7 days is DOWN, with a probability of being UP at 0.4980 as of 2026-03-13. This prediction is model-based and should not be considered as investment advice; please consult a financial expert for personalized guidance.",
+          "llm_note": "Based on our decision_tree model, the predicted direction for AAPL stock over the next 7 days is DOWN, with a probability of being UP at 0.4980 as of 2026-03-13. This prediction is model-based and should not be considered as investment advice; please consult a financial expert for personalized guidance.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T11:30:52+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.42105263157894735,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock moving UP at 42.11%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock moving UP at 42.11%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T11:31:29+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the 7-day prediction for TSLA stock indicates a potential downward direction with a probability of 0.7606 for a downward movement. This model-based prediction is for informational purposes only and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the 7-day prediction for TSLA stock indicates a potential downward direction with a probability of 0.7606 for a downward movement. This model-based prediction is for informational purposes only and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T16:57:08+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5766. This model-based prediction should not be considered as investment advice, and users should consult additional sources before making any financial decisions.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5766. This model-based prediction should not be considered as investment advice, and users should consult additional sources before making any financial decisions.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T16:57:53+00:00",
+      "params": {
+        "tickers": [
+          "AAPL",
+          "NVDA",
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Our model, based on Llama, predicts a potential upward movement for AAPL stock over the next 1 day with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Our model, based on Llama, predicts a potential upward movement for AAPL stock over the next 1 day with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "NVDA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5378522872924805,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Based on the Llama model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5379. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the Llama model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5379. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.42979374527931213,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "The model, utilizing Llama, predicts a downward direction for TSLA stock over the next 1 day with a probability of 0.4298 for an upward movement. This prediction is based on model analysis and should not be considered as investment advice, but rather as a data-driven insight.",
+          "llm_note": "The model, utilizing Llama, predicts a downward direction for TSLA stock over the next 1 day with a probability of 0.4298 for an upward movement. This prediction is based on model analysis and should not be considered as investment advice, but rather as a data-driven insight.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T16:59:23+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5040555919100597,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Our model, based on logistic regression, predicts a 50.41% probability of Apple (AAPL) stock moving upwards over the next 1 day. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analysis and decision-making.",
+          "llm_note": "Our model, based on logistic regression, predicts a 50.41% probability of Apple (AAPL) stock moving upwards over the next 1 day. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analysis and decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:00:16+00:00",
+      "params": {
+        "tickers": [
+          "AAPL",
+          "NVDA",
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5040555919100597,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 50.41%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 50.41%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "NVDA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5185443494860595,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5185 as of 2026-03-13. This model-based prediction should not be considered as financial advice, and actual stock performance may vary.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5185 as of 2026-03-13. This model-based prediction should not be considered as financial advice, and actual stock performance may vary.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5068042066710109,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.68% as of 2026-03-13. This prediction is model-based and should not be considered as financial advice, but rather as an analytical output for informational purposes.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.68% as of 2026-03-13. This prediction is model-based and should not be considered as financial advice, but rather as an analytical output for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:01:42+00:00",
+      "params": {
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5378522872924805,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Based on the Llama model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5379. This prediction is model-based and should not be considered as financial advice, but rather as a potential insight for further analysis.",
+          "llm_note": "Based on the Llama model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5379. This prediction is model-based and should not be considered as financial advice, but rather as a potential insight for further analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:14:48+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394) for a potential increase. This prediction is model-based and should not be considered as investment advice, but rather a tool for informational purposes.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394) for a potential increase. This prediction is model-based and should not be considered as investment advice, but rather a tool for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:14:49+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the 7-day prediction for TSLA stock is DOWN with a probability of 0.7606 (1 - 0.2394). This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the 7-day prediction for TSLA stock is DOWN with a probability of 0.7606 (1 - 0.2394). This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:14:55+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:14:58+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 for a downward movement. This prediction is model-based and should not be considered as investment advice; please consult a financial expert for personalized guidance.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 for a downward movement. This prediction is model-based and should not be considered as investment advice; please consult a financial expert for personalized guidance.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:14:58+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock is UP with a probability of 57.66% as of 2026-03-13. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informed decision-making.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock is UP with a probability of 57.66% as of 2026-03-13. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informed decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:15:06+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Our xgboost model predicts a downward direction for TSLA stock over the next 7 days with a probability of an upward direction of 23.94%. This prediction is based on our model and should not be considered as investment advice.",
+          "llm_note": "Our xgboost model predicts a downward direction for TSLA stock over the next 7 days with a probability of an upward direction of 23.94%. This prediction is based on our model and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:15:06+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This model-based prediction should not be considered as investment advice and is subject to change based on market conditions.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This model-based prediction should not be considered as investment advice and is subject to change based on market conditions.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:15:17+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5036641564911056,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This model-based prediction should not be considered as financial advice, and actual stock performance may vary.",
+          "llm_note": "Based on the logistic regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This model-based prediction should not be considered as financial advice, and actual stock performance may vary.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:15:17+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going up at 23.94%. \n\nThis prediction is model-based and should not be considered as financial advice; it is intended for informational purposes only.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going up at 23.94%. \n\nThis prediction is model-based and should not be considered as financial advice; it is intended for informational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:15:30+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5036641564911056,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This model-based prediction should not be considered as investment advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This model-based prediction should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:15:32+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5021574798994879,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic regression model, the predicted direction of AAPL stock for the next 7 days is UP with a probability of 50.22%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the logistic regression model, the predicted direction of AAPL stock for the next 7 days is UP with a probability of 50.22%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:15:40+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:18:36+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction of TSLA stock for the next 7 days is DOWN, with a probability of 0.2394 for an upward movement. This prediction is model-based and should not be considered as investment advice, but rather as a tool for analysis and research purposes.",
+          "llm_note": "Based on the xgboost model, the predicted direction of TSLA stock for the next 7 days is DOWN, with a probability of 0.2394 for an upward movement. This prediction is model-based and should not be considered as investment advice, but rather as a tool for analysis and research purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:19:06+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on our xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:21:50+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This is a model-based prediction and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This is a model-based prediction and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:22:41+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock is UP with a probability of 57.66% as of 2026-03-13. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock is UP with a probability of 57.66% as of 2026-03-13. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:24:23+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:42:25+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5043801102932073,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Our logistic regression model predicts a potential upward movement for AAPL stock with a probability of 50.44% over the next 1 day. This prediction is based on our model and should not be considered as investment advice, but rather as a data-driven insight for informational purposes.",
+          "llm_note": "Our logistic regression model predicts a potential upward movement for AAPL stock with a probability of 50.44% over the next 1 day. This prediction is based on our model and should not be considered as investment advice, but rather as a data-driven insight for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:42:57+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5043801102932073,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 50.44%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 50.44%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:44:29+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Based on the Llama model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the Llama model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:46:08+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5043801102932073,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic regression model, the predicted direction for AAPL stock for the next 1 day is UP with a probability of 50.44%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the logistic regression model, the predicted direction for AAPL stock for the next 1 day is UP with a probability of 50.44%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:46:59+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5043801102932073,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 50.44%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 50.44%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:47:04+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:48:20+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 (1 - 0.4338) for an upward movement. This prediction is model-based and should not be considered as investment advice, but rather as a tool for analysis and decision-making.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 (1 - 0.4338) for an upward movement. This prediction is model-based and should not be considered as investment advice, but rather as a tool for analysis and decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:48:24+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-15T17:49:20+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T06:00:56+00:00",
+      "params": {
+        "tickers": [
+          "AAPL",
+          "NVDA",
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5766206383705139,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Based on the Llama model, which utilized XGBoost for prediction and Groq Llama for explanation, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This model-based prediction should not be considered as financial advice.",
+          "llm_note": "Based on the Llama model, which utilized XGBoost for prediction and Groq Llama for explanation, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 57.66%. This model-based prediction should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "NVDA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5378522872924805,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Based on the Llama model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5379. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the Llama model, the predicted direction for NVDA stock over the next 1 day is UP with a probability of 0.5379. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Based on the Llama model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of going up at 43.38%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the Llama model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of going up at 43.38%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T06:31:50+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as financial advice, but rather as a data-driven analysis.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as financial advice, but rather as a data-driven analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T06:32:29+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": "Prediction by XGBoost, explanation by Groq Llama",
+          "note": "Based on the Llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock price moving UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the Llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock price moving UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T06:45:58+00:00",
+      "params": {
+        "tickers": [
+          "AAPL",
+          "NVDA",
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 30,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price decline and negative returns over the past 5 and 20 days suggest a downward trend.",
+          "note": "The Llama model predicts a downward trend for AAPL stock over the next 30 days, citing recent price decline and negative returns. This prediction is based on model analysis and should not be considered as financial advice, but rather as a data-driven insight.",
+          "llm_note": "The Llama model predicts a downward trend for AAPL stock over the next 30 days, citing recent price decline and negative returns. This prediction is based on model analysis and should not be considered as financial advice, but rather as a data-driven insight.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "NVDA",
+          "horizon_days": 30,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.62,
+          "expected_return": null,
+          "model_reason": "Recent short-term returns and moving average ratio suggest a potential upward trend.",
+          "note": "Based on the Llama model, the predicted direction for NVDA stock over the next 30 days is UP with a probability of 0.6200. This prediction is model-based and should not be considered as investment advice, but rather a data-driven analysis as of 2026-03-13.",
+          "llm_note": "Based on the Llama model, the predicted direction for NVDA stock over the next 30 days is UP with a probability of 0.6200. This prediction is model-based and should not be considered as investment advice, but rather a data-driven analysis as of 2026-03-13.",
+          "source": "Yahoo Finance live/recent market data"
+        },
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent downward trend and low moving average ratio suggest a potential decline.",
+          "note": "Based on the llama model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the llama model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T06:55:42+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a downward trend.",
+          "note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:02:33+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:03:09+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our xgboost model, the predicted direction for Apple Inc. (AAPL) stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on our xgboost model, the predicted direction for Apple Inc. (AAPL) stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:07:37+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T07:08:53+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T07:09:33+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a downward trend.",
+          "note": "Based on the llama model, the predicted direction for AAPL stock over the next 7 days is DOWN, with a 32.00% probability of an upward movement. This prediction is model-based and should not be considered as investment advice, as actual stock performance may differ.",
+          "llm_note": "Based on the llama model, the predicted direction for AAPL stock over the next 7 days is DOWN, with a 32.00% probability of an upward movement. This prediction is model-based and should not be considered as investment advice, as actual stock performance may differ.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:10:20+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements indicate a downward trend.",
+          "note": "Based on the llama model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.3200 for an upward movement. This prediction is model-based and should not be considered as investment advice, but rather as a data-driven insight as of 2026-03-13.",
+          "llm_note": "Based on the llama model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of 0.3200 for an upward movement. This prediction is model-based and should not be considered as investment advice, but rather as a data-driven insight as of 2026-03-13.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:11:29+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a potential decline.",
+          "note": "Based on the llama model's analysis, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the llama model's analysis, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:14:44+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.7606 for a downward movement. This prediction is model-based and should not be considered as investment advice; users should consult additional sources for informed decision-making.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.7606 for a downward movement. This prediction is model-based and should not be considered as investment advice; users should consult additional sources for informed decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:15:22+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.11607142857142858,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of the stock going UP at 11.61%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of the stock going UP at 11.61%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:16:14+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 for a downward movement. This prediction is model-based and should not be considered as investment advice, but rather as a data-driven forecast for informational purposes only.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 for a downward movement. This prediction is model-based and should not be considered as investment advice, but rather as a data-driven forecast for informational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:16:24+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:16:51+00:00",
+      "params": {
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4250626862049103,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for NVDA stock over the next 7 days is DOWN, with a probability of 0.5749 for a downward movement. This prediction is model-based and should not be considered as investment advice; users should consult financial experts for personalized guidance.",
+          "llm_note": "Based on the xgboost model, the predicted direction for NVDA stock over the next 7 days is DOWN, with a probability of 0.5749 for a downward movement. This prediction is model-based and should not be considered as investment advice; users should consult financial experts for personalized guidance.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:20:55+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This model-based prediction should not be considered as financial advice, and actual stock performance may vary.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This model-based prediction should not be considered as financial advice, and actual stock performance may vary.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:21:29+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a downward trend.",
+          "note": "Based on the llama model, the predicted direction for AAPL stock over the next 7 days is DOWN, with a probability of 68% (1 - 0.3200) for a downward movement. This prediction is model-based and should not be considered as investment advice, but rather a data-driven insight as of 2026-03-13.",
+          "llm_note": "Based on the llama model, the predicted direction for AAPL stock over the next 7 days is DOWN, with a probability of 68% (1 - 0.3200) for a downward movement. This prediction is model-based and should not be considered as investment advice, but rather a data-driven insight as of 2026-03-13.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:26:28+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a potential decline.",
+          "note": "The model, a llama-based prediction, forecasts a potential decline in TSLA stock price over the next 1 day, with a 32.00% probability of an upward movement. This prediction is based on recent price movements and moving averages, but should not be considered as financial advice.",
+          "llm_note": "The model, a llama-based prediction, forecasts a potential decline in TSLA stock price over the next 1 day, with a 32.00% probability of an upward movement. This prediction is based on recent price movements and moving averages, but should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:37:27+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a potential decline.",
+          "note": "Our model, based on recent price movements and moving averages, suggests a potential decline in TSLA stock over the next 7 days. This prediction is model-based and should not be considered as investment advice, but rather a tool for informed decision-making.",
+          "llm_note": "Our model, based on recent price movements and moving averages, suggests a potential decline in TSLA stock over the next 7 days. This prediction is model-based and should not be considered as investment advice, but rather a tool for informed decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:41:54+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.2394 for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informational purposes.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.2394 for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:43:18+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T07:43:46+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a potential decline.",
+          "note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.3200 for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informed decision-making.",
+          "llm_note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.3200 for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informed decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:44:24+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T07:46:16+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5036641564911056,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Our model, logistic_regression, predicts a 50.37% chance of TSLA increasing over the next 7 days. This prediction is based on our model and should not be considered as investment advice, but rather as a data-driven insight.",
+          "llm_note": "Our model, logistic_regression, predicts a 50.37% chance of TSLA increasing over the next 7 days. This prediction is based on our model and should not be considered as investment advice, but rather as a data-driven insight.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:47:37+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "According to our model-based prediction using xgboost, the stock TSLA is forecasted to move downward with a probability of 0.5662 (1 - 0.4338) over the next 1 day. This prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "According to our model-based prediction using xgboost, the stock TSLA is forecasted to move downward with a probability of 0.5662 (1 - 0.4338) over the next 1 day. This prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:48:17+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5069386558026636,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic regression model, the predicted direction for TSLA stock over the next 1 day is UP with a probability of 50.69%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic regression model, the predicted direction for TSLA stock over the next 1 day is UP with a probability of 50.69%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:48:44+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.0,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our decision_tree model, the predicted direction for TSLA stock is DOWN with a probability of 0.0000 for an upward movement as of 2026-03-13. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analysis and decision-making.",
+          "llm_note": "Based on our decision_tree model, the predicted direction for TSLA stock is DOWN with a probability of 0.0000 for an upward movement as of 2026-03-13. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analysis and decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:49:05+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.42105263157894735,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 7 days is DOWN. This prediction is model-based and should not be considered as financial advice, but rather as a potential trend indicator.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 7 days is DOWN. This prediction is model-based and should not be considered as financial advice, but rather as a potential trend indicator.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:49:27+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a downward trend",
+          "note": "Our model, based on recent price movements and moving averages, suggests a potential downward trend for TSLA stock over the next 1 day. This prediction is model-based and should not be considered as financial advice, with a 68.00% probability of a downward direction.",
+          "llm_note": "Our model, based on recent price movements and moving averages, suggests a potential downward trend for TSLA stock over the next 1 day. This prediction is model-based and should not be considered as financial advice, with a 68.00% probability of a downward direction.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:49:48+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction of TSLA stock for the next 1 day is DOWN with a probability of 0.5662 (1 - 0.4338) for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather a tool for analysis and decision-making purposes.",
+          "llm_note": "Based on the xgboost model, the predicted direction of TSLA stock for the next 1 day is DOWN with a probability of 0.5662 (1 - 0.4338) for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather a tool for analysis and decision-making purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:50:37+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a downward trend.",
+          "note": "Our model, a llama-based prediction, suggests a potential downward trend in TSLA stock price over the next 1 day, with a 68.00% probability of this outcome. This prediction is based on recent market data and should not be considered as investment advice, but rather as a model-based forecast for informational purposes only.",
+          "llm_note": "Our model, a llama-based prediction, suggests a potential downward trend in TSLA stock price over the next 1 day, with a 68.00% probability of this outcome. This prediction is based on recent market data and should not be considered as investment advice, but rather as a model-based forecast for informational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:50:54+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 for a DOWN direction. This prediction is model-based and should not be considered as investment advice; it is intended for educational purposes only.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 for a DOWN direction. This prediction is model-based and should not be considered as investment advice; it is intended for educational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T07:55:56+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 (1 - 0.4338). This model-based prediction is for information purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 (1 - 0.4338). This model-based prediction is for information purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:04:23+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:27:52+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T08:28:52+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Groq note unavailable: Request timed out.",
+          "llm_note": "Groq note unavailable: Request timed out.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:30:55+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Groq note unavailable: Request timed out.",
+          "llm_note": "Groq note unavailable: Request timed out.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:31:54+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:32:28+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a downward trend.",
+          "note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 32.0% for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a potential indicator for further analysis.",
+          "llm_note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 32.0% for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a potential indicator for further analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:55:16+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:55:46+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for Apple (AAPL) stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for Apple (AAPL) stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:56:14+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:56:18+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This forecast is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This forecast is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:56:19+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:56:20+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the 7-day prediction for TSLA stock indicates a potential downward direction as of 2026-03-13. This model-based forecast should not be considered as financial advice, and actual market performance may differ from the predicted outcome.",
+          "llm_note": "Based on the xgboost model, the 7-day prediction for TSLA stock indicates a potential downward direction as of 2026-03-13. This model-based forecast should not be considered as financial advice, and actual market performance may differ from the predicted outcome.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:56:31+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.8030746579170227,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 80.31%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:57:28+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T08:57:41+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving average ratios indicate a potential decline.",
+          "note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:58:09+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock moving UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock moving UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:58:18+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN with a probability of 0.7606 (1 - 0.2394). This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T08:59:55+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going UP at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:13+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.2394 for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informed decision-making.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 0.2394 for an upward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informed decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:15+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T09:00:19+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.30647632479667664,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Our model, based on xgboost, predicts a potential downward direction for TSLA stock over the next 30 days with a probability of 30.65% for an upward movement. This prediction is model-based and should not be considered as investment advice; users should consult additional sources for informed decision-making.",
+          "llm_note": "Our model, based on xgboost, predicts a potential downward direction for TSLA stock over the next 30 days with a probability of 30.65% for an upward movement. This prediction is model-based and should not be considered as investment advice; users should consult additional sources for informed decision-making.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:28+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going up at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of going up at 23.94%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:33+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.30647632479667664,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of going UP at approximately 30.65%. This prediction is model-based and not intended as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of going UP at approximately 30.65%. This prediction is model-based and not intended as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:34+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.30647632479667664,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of the stock going UP at 30.65%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of the stock going UP at 30.65%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:38+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5069386558026636,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.69% as of 2026-03-13. This prediction is model-based and should not be considered as investment advice, but rather a statistical forecast for informational purposes only.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.69% as of 2026-03-13. This prediction is model-based and should not be considered as investment advice, but rather a statistical forecast for informational purposes only.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:41+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5036641564911056,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:44+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.0,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on a decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of UP at 0.0000 as of 2026-03-13. This prediction is model-based and should not be considered as investment advice, but rather as a data-driven insight for informational purposes.",
+          "llm_note": "Based on a decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of UP at 0.0000 as of 2026-03-13. This prediction is model-based and should not be considered as investment advice, but rather as a data-driven insight for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:00:53+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5069386558026636,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic regression model, the predicted direction for TSLA stock over the next 1 day is UP with a probability of 50.69%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic regression model, the predicted direction for TSLA stock over the next 1 day is UP with a probability of 50.69%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:01:02+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5069386558026636,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.69% as of 2026-03-13. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock is UP with a probability of 50.69% as of 2026-03-13. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:01:27+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent price movements and moving averages suggest a downward trend.",
+          "note": "Based on the Llama model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as financial advice.",
+          "llm_note": "Based on the Llama model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of an upward movement at 32.00%. This prediction is model-based and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:01:32+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "logistic_regression",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "logistic_regression",
+          "as_of_date": "2026-03-13",
+          "direction": "UP",
+          "prob_up": 0.5036641564911056,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the logistic_regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This forecast is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the logistic_regression model, the predicted direction for TSLA stock over the next 7 days is UP with a probability of 50.37%. This forecast is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:01:50+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [],
+      "errors": [
+        {
+          "ticker": "TSLA",
+          "error": "No Yahoo Finance data returned for TSLA"
+        }
+      ]
+    },
+    {
+      "run_at": "2026-03-16T09:02:34+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.0,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of UP at 0.0000. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analytical purposes.",
+          "llm_note": "Based on the decision_tree model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of UP at 0.0000. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analytical purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:02:56+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "decision_tree",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "decision_tree",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.42105263157894735,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on our decision_tree model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock moving UP at 42.11%. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on our decision_tree model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of the stock moving UP at 42.11%. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:03:01+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN. This prediction is model-based and should not be considered as financial advice, as actual market performance may differ.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN. This prediction is model-based and should not be considered as financial advice, as actual market performance may differ.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:03:10+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 for a downward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analysis.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 for a downward movement. This prediction is model-based and should not be considered as financial advice, but rather as a tool for analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:03:13+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of the stock going UP at 0.4338 as of 2026-03-13. This prediction is model-based and should not be considered as investment advice, but rather as an analytical tool for educational purposes.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN, with a probability of the stock going UP at 0.4338 as of 2026-03-13. This prediction is model-based and should not be considered as investment advice, but rather as an analytical tool for educational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:03:16+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.4337577223777771,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 for a DOWN direction. This prediction is model-based and should not be considered as financial advice, but rather as an analytical output for educational purposes.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 1 day is DOWN with a probability of 0.5662 for a DOWN direction. This prediction is model-based and should not be considered as financial advice, but rather as an analytical output for educational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:03:39+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "llama",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.32,
+          "expected_return": null,
+          "model_reason": "Recent downward trend in returns and volatility suggests a potential decline in the next 7 days.",
+          "note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 68% (1 - 0.3200). This prediction is model-based and should not be considered as investment advice, but rather as a data-driven insight as of 2026-03-13.",
+          "llm_note": "Based on the llama model, the predicted direction for TSLA stock over the next 7 days is DOWN, with a probability of 68% (1 - 0.3200). This prediction is model-based and should not be considered as investment advice, but rather as a data-driven insight as of 2026-03-13.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T09:04:02+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-13",
+          "direction": "DOWN",
+          "prob_up": 0.2393883913755417,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Groq note unavailable: Request timed out.",
+          "llm_note": "Groq note unavailable: Request timed out.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T14:17:10+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 1,
+        "model_name": "llama",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 1,
+          "model_name": "llama",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.73,
+          "expected_return": null,
+          "model_reason": "Recent positive returns and increasing moving averages suggest a potential upward trend.",
+          "note": "Our model, based on a llama algorithm, predicts a potential upward trend for TSLA stock with a 73.00% probability of an increase over the next 1 day. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven insight for further analysis.",
+          "llm_note": "Our model, based on a llama algorithm, predicts a potential upward trend for TSLA stock with a 73.00% probability of an increase over the next 1 day. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven insight for further analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T14:34:43+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.5606114268302917,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5606. This is a model-based prediction and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5606. This is a model-based prediction and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T14:46:01+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.5606114268302917,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the prediction for AAPL stock over the next 1 day is an upward direction with a probability of 0.5606. This is a model-based prediction and should not be considered as investment advice, but rather as a data-driven insight.",
+          "llm_note": "Based on the xgboost model, the prediction for AAPL stock over the next 1 day is an upward direction with a probability of 0.5606. This is a model-based prediction and should not be considered as investment advice, but rather as a data-driven insight.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T15:08:14+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.5606114268302917,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5606. This prediction is model-based and should not be considered as financial advice, but rather as a potential insight for further analysis.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5606. This prediction is model-based and should not be considered as financial advice, but rather as a potential insight for further analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T15:19:45+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 1,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 1,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.5606114268302917,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5606. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informational purposes.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 1 day is UP with a probability of 0.5606. This prediction is model-based and should not be considered as financial advice, but rather as a tool for informational purposes.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T17:53:39+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 30,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 30,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "DOWN",
+          "prob_up": 0.17199845612049103,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of the stock moving UP at 17.20%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for TSLA stock over the next 30 days is DOWN, with a probability of the stock moving UP at 17.20%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-16T17:54:04+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.7261813282966614,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.7262. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven analysis.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.7262. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T13:27:19+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.7261813282966614,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.7262. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.7262. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T13:27:21+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-16",
+          "direction": "UP",
+          "prob_up": 0.7261813282966614,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.7262. This prediction is model-based and should not be considered as financial advice, but rather as a potential insight for further analysis.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.7262. This prediction is model-based and should not be considered as financial advice, but rather as a potential insight for further analysis.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T13:33:14+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "UP",
+          "prob_up": 0.6947327852249146,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 69.47%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 69.47%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:08:29+00:00",
+      "params": {
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "DOWN",
+          "prob_up": 0.40773338079452515,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for NVDA stock over the next 7 days is DOWN, with a probability of the stock moving UP at approximately 40.77%. This prediction is model-based and should not be considered as investment advice.",
+          "llm_note": "Based on the xgboost model, the predicted direction for NVDA stock over the next 7 days is DOWN, with a probability of the stock moving UP at approximately 40.77%. This prediction is model-based and should not be considered as investment advice.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:11:54+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "UP",
+          "prob_up": 0.6959211826324463,
+          "expected_return": null,
+          "model_reason": null,
+          "note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.6959. This model-based prediction should not be considered as financial advice, and actual stock performance may differ from the predicted outcome.",
+          "llm_note": "Based on the xgboost model, the predicted direction for AAPL stock over the next 7 days is UP with a probability of 0.6959. This model-based prediction should not be considered as financial advice, and actual stock performance may differ from the predicted outcome.",
+          "source": "Yahoo Finance live/recent market data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:13:31+00:00",
+      "params": {
+        "tickers": [
+          "AAPL",
+          "NVDA",
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "UP",
+          "prob_up": 0.6959,
+          "prob_down": 0.3041,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "llm_note": "Based on the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "source": "Yahoo Finance live data"
+        },
+        {
+          "ticker": "NVDA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "DOWN",
+          "prob_up": 0.4077,
+          "prob_down": 0.5923,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, NVDA is predicted to move downward over the next 7 days, with a 59.23% probability of a decline. This model-based forecast is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the XGBoost model, NVDA is predicted to move downward over the next 7 days, with a 59.23% probability of a decline. This model-based forecast is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live data"
+        },
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "DOWN",
+          "prob_up": 0.2301,
+          "prob_down": 0.7699,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, the predicted direction for TSLA stock over the next 7 days is down, with a 76.99% probability. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "llm_note": "Based on the XGBoost model, the predicted direction for TSLA stock over the next 7 days is down, with a 76.99% probability. This model-based prediction is for informational purposes only and should not be considered as financial advice.",
+          "source": "Yahoo Finance live data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:21:22+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "UP",
+          "prob_up": 0.6959,
+          "prob_down": 0.3041,
+          "expected_return": null,
+          "note": "According to the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is based on model outputs and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "llm_note": "According to the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is based on model outputs and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "source": "Yahoo Finance live data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:22:40+00:00",
+      "params": {
+        "tickers": [
+          "NVDA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "NVDA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "DOWN",
+          "prob_up": 0.4254,
+          "prob_down": 0.5746,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, NVDA is predicted to move downward over the next 7 days, with a 57.46% probability of a decline. This forecast is a model-based projection and should not be considered as financial advice, but rather as one possible market scenario.",
+          "llm_note": "Based on the XGBoost model, NVDA is predicted to move downward over the next 7 days, with a 57.46% probability of a decline. This forecast is a model-based projection and should not be considered as financial advice, but rather as one possible market scenario.",
+          "source": "Yahoo Finance live data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:34:49+00:00",
+      "params": {
+        "tickers": [
+          "AAPL"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "AAPL",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "UP",
+          "prob_up": 0.6959,
+          "prob_down": 0.3041,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "llm_note": "Based on the XGBoost model, there is a 69.59% probability that AAPL's stock price will move upwards over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven indication of potential market movement.",
+          "source": "Yahoo Finance live data"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "run_at": "2026-03-17T17:37:08+00:00",
+      "params": {
+        "tickers": [
+          "TSLA"
+        ],
+        "horizon_days": 7,
+        "model_name": "xgboost",
+        "model_path": "C:\\Users\\User\\OneDrive\\Desktop\\ai-training\\model_multi.pkl",
+        "period": "6mo"
+      },
+      "results": [
+        {
+          "ticker": "TSLA",
+          "horizon_days": 7,
+          "model_name": "xgboost",
+          "as_of_date": "2026-03-17",
+          "direction": "DOWN",
+          "prob_up": 0.2225,
+          "prob_down": 0.7775,
+          "expected_return": null,
+          "note": "Based on the XGBoost model, there is a 77.75% probability that TSLA's stock price may move downward over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven insight for informational purposes.",
+          "llm_note": "Based on the XGBoost model, there is a 77.75% probability that TSLA's stock price may move downward over the next 7 days. This prediction is model-based and should not be considered as financial advice, but rather as a data-driven insight for informational purposes.",
+          "source": "Yahoo Finance live data"
+        }
+      ],
+      "errors": []
+    }
+  ]
+}
