@@ -12,8 +12,10 @@
 <body>
 <div class="bando">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" id="sidebarClose">✕</button>
     <div class="sidebar-logo">
       <span class="logo-iris">Market</span>&nbsp;<span class="logo-ai">Oracle</span>
     </div>
@@ -23,18 +25,17 @@
     </div>
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">
-      <div class="sidebar-section-label">Prediction Horizon</div>
+      <div class="sidebar-section-label">About</div>
+      <div class="sidebar-about">
+        Market Oracle uses XGBoost ML + 3 LLMs to predict stock direction and risk.
+      </div>
     </div>
-    <div class="horizon-group">
-      <button class="h-btn" data-h="1">1 Day</button>
-      <button class="h-btn active" data-h="7">7 Days</button>
-      <button class="h-btn" data-h="30">30 Days</button>
-    </div>
-    <button class="run-btn" id="runBtn">&#9654; Run Prediction</button>
   </aside>
 
-  <!-- TOPBAR -->
   <header class="topbar">
+    <button class="hamburger-btn" id="hamburgerBtn">
+      <span></span><span></span><span></span>
+    </button>
     <div class="topbar-search">
       <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" placeholder="Search any stock... e.g. AAPL, TSLA, AMZN" autocomplete="off"/>
@@ -50,14 +51,12 @@
     </div>
   </header>
 
-  <!-- MAIN -->
   <main class="main">
     <div class="status-bar" id="statusBar">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusText">Select a stock and run prediction.</span>
     </div>
 
-    <!-- CHART -->
     <div class="chart-card">
       <div class="chart-header">
         <div>
@@ -76,10 +75,12 @@
       <div id="chartContainer"></div>
     </div>
 
-    <!-- RESULTS -->
+    <div class="run-btn-wrap">
+      <button class="run-btn" id="runBtn">&#9654; Run Prediction</button>
+    </div>
+
     <div class="result-grid" id="resultGrid"></div>
 
-    <!-- NEWS -->
     <div class="news-card" id="newsCard" style="display:none">
       <div class="news-header">
         <span class="news-title">📰 Latest News — <span id="newsTicker"></span></span>
@@ -104,12 +105,25 @@ const STOCKS = [
 ];
 
 let activeTicker   = "AAPL";
-let activeHorizon  = 7;
+let activeHorizon  = 1;
 let activeRange    = 90;
 let tvChart        = null;
 let candleSeries   = null;
 let chartReady     = false;
 let recentSearches = [];
+
+// ── SIDEBAR ──
+const sidebar        = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const hamburgerBtn   = document.getElementById("hamburgerBtn");
+const sidebarClose   = document.getElementById("sidebarClose");
+
+function openSidebar()  { sidebar.classList.add("open"); sidebarOverlay.classList.add("open"); }
+function closeSidebar() { sidebar.classList.remove("open"); sidebarOverlay.classList.remove("open"); }
+
+hamburgerBtn.addEventListener("click", openSidebar);
+sidebarClose.addEventListener("click", closeSidebar);
+sidebarOverlay.addEventListener("click", closeSidebar);
 
 // ── THEME ──
 const themeToggle = document.getElementById("themeToggle");
@@ -223,15 +237,6 @@ document.querySelectorAll(".range-btn").forEach(btn => {
   });
 });
 
-// ── HORIZON BUTTONS ──
-document.querySelectorAll(".h-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".h-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    activeHorizon = parseInt(btn.dataset.h);
-  });
-});
-
 // ── RECENTLY SEARCHED ──
 function buildWatchlist() {
   const el = document.getElementById("watchlist");
@@ -243,11 +248,11 @@ function buildWatchlist() {
     const info = STOCKS.find(s => s.t === t) || { n: t };
     return `<div class="stock-pill${t === activeTicker ? " active" : ""}" data-t="${t}">
       <span class="sp-ticker">${t}</span>
-      <span class="sp-name" style="font-size:.78rem;color:var(--text2);flex:1">${info.n.split(" ")[0]}</span>
+      <span class="sp-name">${info.n.split(" ")[0]}</span>
     </div>`;
   }).join("");
   el.querySelectorAll(".stock-pill").forEach(p =>
-    p.addEventListener("click", () => selectStock(p.dataset.t))
+    p.addEventListener("click", () => { selectStock(p.dataset.t); closeSidebar(); })
   );
 }
 
@@ -256,9 +261,6 @@ function selectStock(t) {
   activeTicker = t;
   recentSearches = [t, ...recentSearches.filter(x => x !== t)].slice(0, 5);
   buildWatchlist();
-  document.querySelectorAll(".stock-pill").forEach(p =>
-    p.classList.toggle("active", p.dataset.t === t)
-  );
   loadChart(t, activeRange);
   loadNews(t);
   document.getElementById("chartTitle").textContent = t;
@@ -351,9 +353,18 @@ function renderCard(key, data, label) {
     <div class="rc-header"><span class="rc-model">${label}</span></div>
     <div class="rc-insight" style="margin-top:8px">No data.</div>
   </div>`;
+
   const risk  = (data.risk_level || "MEDIUM").toUpperCase();
   const price = data.price_estimate ? `$${parseFloat(data.price_estimate).toFixed(2)}` : "–";
   const trend = data.trend || "–";
+
+  const confMap = { "LOW": 75, "MEDIUM": 55, "HIGH": 35 };
+  const conf = confMap[risk] || 55;
+
+  const today  = new Date();
+  const asOf   = today.toISOString().split("T")[0];
+  const target = new Date(today.getTime() + activeHorizon * 86400000).toISOString().split("T")[0];
+
   return `<div class="result-card">
     <div class="rc-header">
       <span class="rc-model">${label}</span>
@@ -362,6 +373,10 @@ function renderCard(key, data, label) {
     <div class="rc-risk-label ${riskClass(risk)}">${risk} RISK</div>
     <div class="rc-row"><span class="label">Price estimate</span><span class="value">${price}</span></div>
     <div class="rc-row"><span class="label">Trend</span><span class="value">${trend}</span></div>
+    <div class="rc-row"><span class="label">Confidence</span><span class="value">${conf}%</span></div>
+    <div class="rc-conf-bar-bg"><div class="rc-conf-bar" style="width:${conf}%"></div></div>
+    <div class="rc-row"><span class="label">As of</span><span class="value">${asOf}</span></div>
+    <div class="rc-row"><span class="label">Target date</span><span class="value">${target}</span></div>
     <div class="rc-divider"></div>
     <div class="rc-insight">${data.insight || "–"}</div>
   </div>`;
@@ -375,8 +390,8 @@ document.getElementById("runBtn").addEventListener("click", async () => {
   const grid = document.getElementById("resultGrid");
   btn.disabled    = true;
   dot.className   = "status-dot loading";
-  txt.textContent = `Running prediction for ${activeTicker} at ${activeHorizon}d horizon...`;
-  grid.innerHTML  = ["XGBOOST ML","GEMINI FLASH","DEEPSEEK V3","GROQ LLAMA"].map(label =>
+  txt.textContent = `Running prediction for ${activeTicker} (1 Day horizon)...`;
+  grid.innerHTML  = ["XGBOOST ML","QWEN 30B","GOOGLE GEMMA","GROQ LLAMA"].map(label =>
     `<div class="result-card"><div class="rc-loading">⏳ Calling ${label}...</div></div>`
   ).join("");
   try {
@@ -387,13 +402,13 @@ document.getElementById("runBtn").addEventListener("click", async () => {
     });
     const data = await res.json();
     dot.className   = "status-dot ok";
-    txt.textContent = `Prediction complete for ${activeTicker} at ${activeHorizon}d horizon.`;
+    txt.textContent = `Prediction complete for ${activeTicker} (1 Day horizon).`;
     const picked = data.picked || {};
     const llm    = data.llm    || {};
     grid.innerHTML =
       renderXGBCard(picked) +
-      renderCard("gemini",   llm.gemini,   "GEMINI FLASH") +
-      renderCard("deepseek", llm.deepseek, "DEEPSEEK V3")  +
+      renderCard("chat",     llm.chat,     "QWEN 30B") +
+      renderCard("deepseek", llm.deepseek, "GOOGLE GEMMA") +
       renderCard("groq",     llm.groq,     "GROQ LLAMA");
   } catch(e) {
     dot.className   = "status-dot error";
