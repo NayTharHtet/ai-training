@@ -1,0 +1,2 @@
+timestamp,ticker,current_price,chat_price,deepseek_price,gemini_price,groq_price,consensus_price,consensus_direction,target_date,actual_price,actual_direction,is_correct,error_amount,error_percent
+2026-04-05 02:20:23,SPY,655.83,661.4,661.4,661.4,663.9,661.96,BUY,2026-04-06,,,,,

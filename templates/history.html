@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prediction History - Market Oracle</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body { margin: 0; font-family: Inter, Arial, sans-serif; background: #0b1020; color: #fff; }
+    .history-wrap { max-width: 1240px; margin: 40px auto; padding: 0 24px; }
+
+    /* Header */
+    .history-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; gap: 12px; flex-wrap: wrap; }
+    .history-title { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: -0.3px; }
+    .history-subtitle { color: #6b7399; margin-top: 5px; font-size: 13px; }
+    .back-btn { padding: 9px 18px; border-radius: 8px; background: #1e2540; color: #c5cae9; text-decoration: none; font-size: 13px; font-weight: 600; border: 1px solid #2a3050; white-space: nowrap; }
+    .back-btn:hover { background: #252d4a; }
+
+    /* Metrics */
+    .metric-boxes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+    .metric-box { background: #111827; border: 1px solid #1e2540; border-radius: 12px; padding: 16px 18px; }
+    .metric-label { color: #6b7399; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+    .metric-value { font-size: 26px; font-weight: 700; color: #e8eaf6; }
+
+    /* Toolbar */
+    .toolbar { display: flex; gap: 8px; margin-bottom: 14px; }
+    .export-btn { padding: 8px 16px; border-radius: 7px; background: #1e2540; border: 1px solid #2a3050; color: #c5cae9; font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; }
+    .export-btn:hover { background: #252d4a; }
+
+    /* Table card */
+    .history-card { background: #111827; border: 1px solid #1e2540; border-radius: 14px; overflow: hidden; }
+    .history-card .scroll-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 1100px; }
+    thead { background: #0d1424; }
+    th { padding: 11px 14px; text-align: left; color: #4a5280; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; border-bottom: 1px solid #1a2035; }
+    td { padding: 13px 14px; font-size: 13px; color: #c5cae9; border-bottom: 1px solid #131b2e; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* Status badges */
+    .badge { display: inline-block; padding: 3px 9px; border-radius: 5px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+    .badge-correct { background: rgba(0,212,130,0.12); color: #00d482; }
+    .badge-wrong   { background: rgba(255,80,100,0.12); color: #ff5064; }
+    .badge-pending { background: rgba(180,160,80,0.12); color: #c8aa3a; }
+    .badge-saved   { background: rgba(100,130,220,0.12); color: #7e9adc; }
+
+    /* Save button */
+    .save-btn { padding: 4px 12px; border-radius: 5px; background: none; border: 1px solid #2a3050; color: #6b7399; font-size: 12px; cursor: pointer; }
+    .save-btn:hover { border-color: #4a5a90; color: #c5cae9; }
+
+    /* Toast */
+    #toast { position: fixed; bottom: 24px; right: 24px; background: #1a2236; color: #c5cae9; padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; box-shadow: 0 4px 20px rgba(0,0,0,0.4); display: none; z-index: 9999; border-left: 3px solid #00d482; }
+
+    @media (max-width: 900px) { .metric-boxes { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .metric-boxes { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div id="toast"></div>
+
+  <div class="history-wrap">
+
+    <div class="history-header">
+      <div>
+        <h1 class="history-title">Prediction History</h1>
+        <div class="history-subtitle">Predicted vs actual market price. Rows older than 3 days are removed unless saved.</div>
+      </div>
+      <a href="/" class="back-btn">Back</a>
+    </div>
+
+    <div class="metric-boxes">
+      <div class="metric-box">
+        <div class="metric-label">Total Predictions</div>
+        <div class="metric-value">{{ total_predictions }}</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Checked Results</div>
+        <div class="metric-value">{{ checked_results }}</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Correct Direction</div>
+        <div class="metric-value">{{ correct_count }}</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Avg Error %</div>
+        <div class="metric-value">{{ avg_error_percent }}%</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <a href="/export_csv" class="export-btn">Export CSV</a>
+    </div>
+
+    <div class="history-card">
+      <div class="scroll-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Ticker</th>
+              <th>Current</th>
+              <th>Predicted</th>
+              <th>Direction</th>
+              <th>Target Date</th>
+              <th>Actual</th>
+              <th>Actual Dir.</th>
+              <th>Difference</th>
+              <th>Error %</th>
+              <th>Result</th>
+              <th>Save</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in records %}
+            <tr>
+              <td style="color:#6b7399; font-size:12px;">{{ row.timestamp }}</td>
+              <td style="font-weight:600; color:#e8eaf6;">{{ row.ticker }}</td>
+              <td>${{ row.current_price }}</td>
+              <td>{{ row.consensus_price if row.consensus_price else "—" }}</td>
+              <td>{{ row.consensus_direction if row.consensus_direction else "—" }}</td>
+              <td style="color:#6b7399;">{{ row.target_date }}</td>
+              <td>{{ row.actual_price if row.actual_price else "—" }}</td>
+              <td>{{ row.actual_direction if row.actual_direction else "—" }}</td>
+              <td>{{ row.error_amount if row.error_amount else "—" }}</td>
+              <td>{{ row.error_percent ~ "%" if row.error_percent else "—" }}</td>
+              <td>
+                {% if row.is_correct == "True" or row.is_correct == True %}
+                  <span class="badge badge-correct">Correct</span>
+                {% elif row.is_correct == "False" or row.is_correct == False %}
+                  <span class="badge badge-wrong">Wrong</span>
+                {% else %}
+                  <span class="badge badge-pending">Pending</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if row.saved == True or row.saved == "True" %}
+                  <span class="badge badge-saved">Saved</span>
+                {% else %}
+                  <button class="save-btn" onclick="savePrediction('{{ row.timestamp }}', this)">Save</button>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showToast(msg, ok = true) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.borderLeftColor = ok ? '#00d482' : '#ff5064';
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 2800);
+    }
+
+    async function savePrediction(timestamp, btn) {
+      btn.disabled = true;
+      btn.textContent = '...';
+      try {
+        const res  = await fetch('/api/save_prediction', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ timestamp })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          const badge = document.createElement('span');
+          badge.className = 'badge badge-saved';
+          badge.textContent = 'Saved';
+          btn.replaceWith(badge);
+          showToast('Prediction saved.');
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Save';
+          showToast(data.error || 'Error saving.', false);
+        }
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Save';
+        showToast('Network error.', false);
+      }
+    }
+  </script>
+</body>
+</html>

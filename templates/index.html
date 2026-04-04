@@ -8,6 +8,105 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
   <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+  <style>
+    .rc-skeleton {
+      background: linear-gradient(90deg, var(--card) 25%, var(--border) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 6px;
+      height: 14px;
+      margin: 8px 0;
+    }
+    .rc-skeleton.tall  { height: 28px; width: 60%; }
+    .rc-skeleton.short { width: 40%; }
+    .rc-skeleton.full  { width: 90%; }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .rc-loading-label {
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+
+    /* ── SEARCH SCREEN ── */
+    #searchScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 56px);
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    #searchScreen.hidden { display: none; }
+    .search-hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .search-hero-sub {
+      font-size: 0.95rem;
+      color: var(--text2);
+      margin-bottom: 2rem;
+    }
+    .hero-search-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-search-wrap input {
+      width: 100%;
+      padding: 0.85rem 3rem 0.85rem 1.1rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .hero-search-wrap input:focus { border-color: #7c6cff; }
+    .hero-search-go {
+      position: absolute;
+      right: 10px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      font-size: 1.2rem; cursor: pointer;
+      color: #7c6cff;
+    }
+    .quick-chips {
+      display: flex; flex-wrap: wrap;
+      gap: 0.5rem; justify-content: center;
+    }
+    .quick-chip {
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .quick-chip:hover {
+      background: #7c6cff;
+      border-color: #7c6cff;
+      color: #fff;
+    }
+
+    /* ── RESULTS SCREEN ── */
+    #resultsScreen { display: none; }
+    #resultsScreen.visible { display: block; }
+  </style>
 </head>
 <body>
 <div class="bando">
@@ -19,15 +118,27 @@
     <div class="sidebar-logo">
       <span class="logo-iris">Market</span>&nbsp;<span class="logo-ai">Oracle</span>
     </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Prediction</div>
+      <a href="/history" class="stock-pill sidebar-link">
+        <span class="sp-ticker">Prediction History</span>
+      </a>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
     <div class="sidebar-section">
       <div class="sidebar-section-label">Recently Searched</div>
       <div id="watchlist"></div>
     </div>
+
     <div class="sidebar-divider"></div>
+
     <div class="sidebar-section">
       <div class="sidebar-section-label">About</div>
       <div class="sidebar-about">
-        Market Oracle uses 3 LLMs to predict stock direction and risk.
+        Market Oracle uses 4 LLMs to predict stock direction and risk.
       </div>
     </div>
   </aside>
@@ -36,10 +147,14 @@
     <button class="hamburger-btn" id="hamburgerBtn">
       <span></span><span></span><span></span>
     </button>
-    <div class="topbar-search">
+    <div class="topbar-brand" id="topbarBrand" style="font-weight:800;font-size:1rem;color:var(--text);">
+      <span class="logo-iris">Market</span>&nbsp;<span class="logo-ai">Oracle</span>
+    </div>
+    <!-- Top search bar (only visible on results screen) -->
+    <div class="topbar-search" id="topbarSearch" style="display:none;">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search any stock... e.g. AAPL, TSLA, AMZN" autocomplete="off"/>
-      <div class="search-dropdown" id="searchDropdown"></div>
+      <input type="text" id="topSearchInput" placeholder="Search ticker..." autocomplete="off"/>
+      <div class="search-dropdown" id="topSearchDropdown"></div>
     </div>
     <div class="theme-switch-wrap">
       <span class="theme-icon">🌙</span>
@@ -52,75 +167,164 @@
   </header>
 
   <main class="main">
-    <div class="status-bar" id="statusBar">
-      <div class="status-dot" id="statusDot"></div>
-      <span id="statusText">Select a stock and run prediction.</span>
-    </div>
 
-    <div class="chart-card">
-      <div class="chart-header">
-        <div>
-          <div class="chart-title" id="chartTitle">—</div>
-          <div class="chart-meta" id="chartMeta">Initialising...</div>
-        </div>
-        <div class="chart-range-btns">
-          <button class="range-btn" data-d="7">1W</button>
-          <button class="range-btn" data-d="30">1M</button>
-          <button class="range-btn active" data-d="90">3M</button>
-          <button class="range-btn" data-d="180">6M</button>
-          <button class="range-btn" data-d="365">1Y</button>
-          <button class="range-btn" data-d="1825">5Y</button>
-        </div>
+    <!-- ══ SEARCH SCREEN ══ -->
+    <div id="searchScreen">
+      <div class="search-hero-title">📈 Market Oracle</div>
+      <div class="search-hero-sub">Enter a stock ticker to view chart, news &amp; AI predictions</div>
+
+      <div class="hero-search-wrap" id="heroSearchWrap">
+        <input
+          type="text"
+          id="heroSearchInput"
+          placeholder="Search any stock… e.g. AAPL, TSLA, NVDA"
+          autocomplete="off"
+        />
+        <button class="hero-search-go" id="heroSearchGoBtn">🔍</button>
+        <div class="search-dropdown" id="heroSearchDropdown"></div>
       </div>
-      <div id="chartContainer"></div>
-    </div>
 
-    <div class="run-btn-wrap">
-      <button class="run-btn" id="runBtn">&#9654; Run Prediction</button>
-    </div>
-
-    <div class="result-grid" id="resultGrid"></div>
-
-    <div class="news-card" id="newsCard" style="display:none">
-      <div class="news-header">
-        <span class="news-title">📰 Latest News — <span id="newsTicker"></span></span>
-        <span class="news-meta" id="newsMeta"></span>
+      <div class="quick-chips">
+        <button class="quick-chip" onclick="selectStock('AAPL')">AAPL</button>
+        <button class="quick-chip" onclick="selectStock('TSLA')">TSLA</button>
+        <button class="quick-chip" onclick="selectStock('NVDA')">NVDA</button>
+        <button class="quick-chip" onclick="selectStock('MSFT')">MSFT</button>
+        <button class="quick-chip" onclick="selectStock('AMZN')">AMZN</button>
+        <button class="quick-chip" onclick="selectStock('GOOGL')">GOOGL</button>
+        <button class="quick-chip" onclick="selectStock('META')">META</button>
+        <button class="quick-chip" onclick="selectStock('JPM')">JPM</button>
       </div>
-      <div class="news-list" id="newsList"></div>
+    </div>
+
+    <!-- ══ RESULTS SCREEN ══ -->
+    <div id="resultsScreen">
+      <div class="status-bar" id="statusBar">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Select a stock and run prediction.</span>
+        <button id="backBtn" onclick="showSearchScreen()" style="
+          margin-left:auto; background:none; border:1px solid var(--border);
+          border-radius:6px; padding:3px 10px; font-size:.78rem;
+          color:var(--text2); cursor:pointer; font-family:'Inter',sans-serif;">
+          ← Back
+        </button>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title" id="chartTitle">—</div>
+            <div class="chart-meta" id="chartMeta">Initialising...</div>
+          </div>
+          <div class="chart-range-btns">
+            <button class="range-btn" data-d="7">1W</button>
+            <button class="range-btn" data-d="30">1M</button>
+            <button class="range-btn active" data-d="90">3M</button>
+            <button class="range-btn" data-d="180">6M</button>
+            <button class="range-btn" data-d="365">1Y</button>
+            <button class="range-btn" data-d="1825">5Y</button>
+          </div>
+        </div>
+        <div id="chartContainer"></div>
+      </div>
+
+      <div class="run-btn-wrap">
+        <button class="run-btn" id="runBtn">&#9654; Run Prediction</button>
+      </div>
+
+      <div class="result-grid" id="resultGrid"></div>
+      <div id="summaryCard"></div>
+
+      <div class="news-card" id="newsCard" style="display:none">
+        <div class="news-header">
+          <span class="news-title">📰 Latest News — <span id="newsTicker"></span></span>
+          <span class="news-meta" id="newsMeta"></span>
+        </div>
+        <div class="news-list" id="newsList"></div>
+      </div>
     </div>
 
   </main>
 </div>
 
-<script>
-const STOCKS = [
-  {t:"AAPL",n:"Apple Inc."},{t:"NVDA",n:"NVIDIA"},{t:"TSLA",n:"Tesla"},
-  {t:"MSFT",n:"Microsoft"},{t:"AMZN",n:"Amazon.com"},{t:"GOOGL",n:"Alphabet"},
-  {t:"META",n:"Meta Platforms"},{t:"NFLX",n:"Netflix"},{t:"AMD",n:"AMD"},
-  {t:"INTC",n:"Intel"},{t:"BABA",n:"Alibaba"},{t:"UBER",n:"Uber"},
-  {t:"COIN",n:"Coinbase"},{t:"PLTR",n:"Palantir"},{t:"SOFI",n:"SoFi"},
-  {t:"SPY",n:"S&P 500 ETF"},{t:"QQQ",n:"Nasdaq ETF"},{t:"DIS",n:"Disney"},
-  {t:"BA",n:"Boeing"},{t:"JPM",n:"JPMorgan"},{t:"V",n:"Visa"},
-  {t:"BRK-B",n:"Berkshire"},{t:"XOM",n:"ExxonMobil"},{t:"WMT",n:"Walmart"},
-];
+<!-- FEEDBACK BUTTON -->
+<button id="feedbackFloatBtn" onclick="toggleFeedback()" style="
+  position:fixed; bottom:28px; right:28px; z-index:9999;
+  background:linear-gradient(135deg,#7c6cff,#00d4aa);
+  color:#fff; border:none; border-radius:50px;
+  padding:12px 22px; font-size:.9rem; font-weight:700;
+  cursor:pointer; box-shadow:0 4px 20px rgba(124,108,255,.4);
+  transition: transform .2s;">
+  💬 Feedback
+</button>
 
-let activeTicker   = "AAPL";
+<!-- FEEDBACK OVERLAY -->
+<div id="feedbackOverlay" onclick="closeFeedback()" style="
+  display:none; position:fixed; inset:0; z-index:9998;
+  background:rgba(0,0,0,.6); backdrop-filter:blur(4px);">
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div id="feedbackModal" style="
+  display:none; position:fixed; bottom:90px; right:28px;
+  z-index:9999; width:320px; background:var(--card);
+  border:1px solid var(--border); border-radius:16px;
+  padding:24px; box-shadow:0 8px 40px rgba(0,0,0,.4);">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+    <span style="font-weight:700; font-size:1rem;">Send Feedback</span>
+    <button onclick="closeFeedback()" style="background:none;border:none;color:var(--text2);font-size:1.2rem;cursor:pointer;">✕</button>
+  </div>
+  <input id="fbName" type="text" placeholder="Your name (optional)"
+    style="width:100%;padding:9px 12px;margin-bottom:10px;border-radius:8px;
+    border:1px solid var(--border);background:var(--bg);color:var(--text);
+    font-size:.85rem;box-sizing:border-box;"/>
+  <input id="fbEmail" type="email" placeholder="Email (optional)"
+    style="width:100%;padding:9px 12px;margin-bottom:10px;border-radius:8px;
+    border:1px solid var(--border);background:var(--bg);color:var(--text);
+    font-size:.85rem;box-sizing:border-box;"/>
+  <textarea id="fbMessage" placeholder="Your feedback or suggestion..." rows="4"
+    style="width:100%;padding:9px 12px;margin-bottom:14px;border-radius:8px;
+    border:1px solid var(--border);background:var(--bg);color:var(--text);
+    font-size:.85rem;box-sizing:border-box;resize:vertical;"></textarea>
+  <button onclick="submitFeedback()" style="
+    width:100%;padding:10px;border:none;border-radius:8px;
+    background:linear-gradient(135deg,#7c6cff,#00d4aa);
+    color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;">
+    Send ✉️
+  </button>
+  <div id="fbStatus" style="margin-top:10px;font-size:.8rem;text-align:center;"></div>
+</div>
+
+<script>
+let activeTicker   = "";
 let activeHorizon  = 1;
 let activeRange    = 90;
 let tvChart        = null;
 let candleSeries   = null;
 let chartReady     = false;
 let recentSearches = [];
+let searchDebounce = null;
+
+// ── SCREEN MANAGEMENT ──
+function showSearchScreen() {
+  document.getElementById("searchScreen").classList.remove("hidden");
+  document.getElementById("resultsScreen").classList.remove("visible");
+  document.getElementById("topbarSearch").style.display = "none";
+  document.getElementById("topbarBrand").style.display = "block";
+}
+function showResultsScreen() {
+  document.getElementById("searchScreen").classList.add("hidden");
+  document.getElementById("resultsScreen").classList.add("visible");
+  document.getElementById("topbarSearch").style.display = "flex";
+  document.getElementById("topbarBrand").style.display = "none";
+}
 
 // ── SIDEBAR ──
 const sidebar        = document.getElementById("sidebar");
 const sidebarOverlay = document.getElementById("sidebarOverlay");
 const hamburgerBtn   = document.getElementById("hamburgerBtn");
 const sidebarClose   = document.getElementById("sidebarClose");
-
 function openSidebar()  { sidebar.classList.add("open"); sidebarOverlay.classList.add("open"); }
 function closeSidebar() { sidebar.classList.remove("open"); sidebarOverlay.classList.remove("open"); }
-
 hamburgerBtn.addEventListener("click", openSidebar);
 sidebarClose.addEventListener("click", closeSidebar);
 sidebarOverlay.addEventListener("click", closeSidebar);
@@ -129,7 +333,77 @@ sidebarOverlay.addEventListener("click", closeSidebar);
 const themeToggle = document.getElementById("themeToggle");
 themeToggle.addEventListener("change", () => {
   document.documentElement.setAttribute("data-theme", themeToggle.checked ? "light" : "dark");
-  rebuildChart().then(() => loadChart(activeTicker, activeRange));
+  if (chartReady) rebuildChart().then(() => loadChart(activeTicker, activeRange));
+});
+
+// ── HERO SEARCH ──
+const heroInput    = document.getElementById("heroSearchInput");
+const heroDropdown = document.getElementById("heroSearchDropdown");
+
+heroInput.addEventListener("input", () => {
+  clearTimeout(searchDebounce);
+  const q = heroInput.value.trim();
+  if (!q) { heroDropdown.classList.remove("open"); return; }
+  searchDebounce = setTimeout(() => fetchSuggestions(q, heroDropdown, (t) => {
+    heroInput.value = t;
+    selectStock(t);
+  }), 280);
+});
+heroInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const q = heroInput.value.trim().toUpperCase();
+    if (q) { heroDropdown.classList.remove("open"); selectStock(q); }
+  }
+});
+document.getElementById("heroSearchGoBtn").addEventListener("click", () => {
+  const q = heroInput.value.trim().toUpperCase();
+  if (q) { heroDropdown.classList.remove("open"); selectStock(q); }
+});
+
+// ── TOP SEARCH ──
+const topInput    = document.getElementById("topSearchInput");
+const topDropdown = document.getElementById("topSearchDropdown");
+
+topInput.addEventListener("input", () => {
+  clearTimeout(searchDebounce);
+  const q = topInput.value.trim();
+  if (!q) { topDropdown.classList.remove("open"); return; }
+  searchDebounce = setTimeout(() => fetchSuggestions(q, topDropdown, (t) => {
+    topInput.value = t;
+    selectStock(t);
+  }), 280);
+});
+topInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const q = topInput.value.trim().toUpperCase();
+    if (q) { topDropdown.classList.remove("open"); selectStock(q); }
+  }
+});
+
+// ── AUTOCOMPLETE FETCH ──
+async function fetchSuggestions(q, dropdown, onPick) {
+  try {
+    const res     = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+    const matches = await res.json();
+    const items   = Array.isArray(matches) ? matches : [];
+    if (!items.length) { dropdown.classList.remove("open"); return; }
+    dropdown.innerHTML = items.slice(0, 8).map(s =>
+      `<div class="search-item" data-t="${s.t}">
+        <span class="ticker">${s.t}</span>
+        <span class="name">${s.n || ""}</span>
+      </div>`).join("");
+    dropdown.classList.add("open");
+    dropdown.querySelectorAll(".search-item").forEach(item => {
+      item.addEventListener("click", () => {
+        dropdown.classList.remove("open");
+        onPick(item.dataset.t);
+      });
+    });
+  } catch(e) { dropdown.classList.remove("open"); }
+}
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#heroSearchWrap"))  heroDropdown.classList.remove("open");
+  if (!e.target.closest(".topbar-search"))   topDropdown.classList.remove("open");
 });
 
 // ── BUILD CHART ──
@@ -233,7 +507,7 @@ document.querySelectorAll(".range-btn").forEach(btn => {
     document.querySelectorAll(".range-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     activeRange = parseInt(btn.dataset.d);
-    loadChart(activeTicker, activeRange);
+    if (activeTicker) loadChart(activeTicker, activeRange);
   });
 });
 
@@ -244,13 +518,10 @@ function buildWatchlist() {
     el.innerHTML = `<div style="font-size:.78rem;color:var(--text2);padding:6px 4px;">No recent searches yet.</div>`;
     return;
   }
-  el.innerHTML = recentSearches.map(t => {
-    const info = STOCKS.find(s => s.t === t) || { n: t };
-    return `<div class="stock-pill${t === activeTicker ? " active" : ""}" data-t="${t}">
+  el.innerHTML = recentSearches.map(t =>
+    `<div class="stock-pill${t === activeTicker ? " active" : ""}" data-t="${t}">
       <span class="sp-ticker">${t}</span>
-      <span class="sp-name">${info.n.split(" ")[0]}</span>
-    </div>`;
-  }).join("");
+    </div>`).join("");
   el.querySelectorAll(".stock-pill").forEach(p =>
     p.addEventListener("click", () => { selectStock(p.dataset.t); closeSidebar(); })
   );
@@ -258,48 +529,24 @@ function buildWatchlist() {
 
 // ── SELECT STOCK ──
 function selectStock(t) {
+  t = t.toUpperCase().trim();
+  if (!t) return;
   activeTicker = t;
   recentSearches = [t, ...recentSearches.filter(x => x !== t)].slice(0, 5);
   buildWatchlist();
-  loadChart(t, activeRange);
-  loadNews(t);
-  document.getElementById("chartTitle").textContent = t;
-}
-
-// ── SEARCH ──
-const searchInput    = document.getElementById("searchInput");
-const searchDropdown = document.getElementById("searchDropdown");
-
-searchInput.addEventListener("input", () => {
-  const q = searchInput.value.trim().toUpperCase();
-  if (!q) { searchDropdown.classList.remove("open"); return; }
-  const matches = STOCKS.filter(s =>
-    s.t.includes(q) || s.n.toUpperCase().includes(q)
-  ).slice(0, 8);
-  searchDropdown.innerHTML = (matches.length ? matches : [{t: q, n: `Search "${q}"`}])
-    .map(s => `<div class="search-item" data-t="${s.t}">
-      <span class="ticker">${s.t}</span>
-      <span class="name">${s.n}</span></div>`).join("");
-  searchDropdown.classList.add("open");
-  searchDropdown.querySelectorAll(".search-item").forEach(item => {
-    item.addEventListener("click", () => {
-      selectStock(item.dataset.t);
-      searchInput.value = "";
-      searchDropdown.classList.remove("open");
-    });
+  topInput.value = t;
+  // Reset predictions
+  document.getElementById("resultGrid").innerHTML = "";
+  document.getElementById("summaryCard").innerHTML = "";
+  document.getElementById("newsCard").style.display = "none";
+  showResultsScreen();
+  rebuildChart().then(() => {
+    loadChart(t, activeRange);
+    loadNews(t);
   });
-});
-
-document.addEventListener("click", e => {
-  if (!e.target.closest(".topbar-search")) searchDropdown.classList.remove("open");
-});
-
-searchInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    const q = searchInput.value.trim().toUpperCase();
-    if (q) { selectStock(q); searchInput.value = ""; searchDropdown.classList.remove("open"); }
-  }
-});
+  document.getElementById("statusDot").className = "status-dot ok";
+  document.getElementById("statusText").textContent = `Loaded ${t}. Ready to run prediction.`;
+}
 
 // ── RISK HELPERS ──
 function riskClass(r) {
@@ -315,24 +562,79 @@ function badgeClass(r) {
   return "badge-med";
 }
 
-// ── RENDER LLM CARD ──
+function renderSummary(summary) {
+  if (!summary) return "";
+  const currentPrice   = summary.current_price ?? summary.last_close ?? 0;
+  const predictedPrice = summary.predicted_price != null ? summary.predicted_price : currentPrice;
+  const risk           = (summary.risk || "MEDIUM").toUpperCase();
+  let riskColor = "#facc15";
+  if (risk === "LOW")  riskColor = "#00d4aa";
+  if (risk === "HIGH") riskColor = "#ff4d6d";
+  const decision   = summary.decision || "UNCERTAIN";
+  const confidence = Math.min(Math.round(summary.confidence ?? 0), 100);
+  return `
+    <div style="margin-top:20px;">
+      <div style="font-size:.75rem; letter-spacing:.12em; color:var(--text2); margin-bottom:10px;">AI CONSENSUS</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+        <div class="result-card" style="text-align:center;">
+          <div style="font-size:.75rem; color:var(--text2); margin-bottom:8px;">RISK LEVEL</div>
+          <div style="font-weight:800; font-size:1.1rem; color:${riskColor};">${risk}</div>
+          <div style="margin-top:10px; height:6px; border-radius:4px; background:${riskColor}; opacity:.7;"></div>
+        </div>
+        <div class="result-card" style="text-align:center;">
+          <div style="font-size:.75rem; color:var(--text2); margin-bottom:8px;">MARKET ACTION</div>
+          <div style="font-weight:800; font-size:1.1rem; margin-bottom:8px; color:var(--text);">${decision}</div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:.9rem;">
+            <div>Current:</div><div>$${parseFloat(currentPrice).toFixed(2)}</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:.9rem;">
+            <div>Predicted:</div><div>$${parseFloat(predictedPrice).toFixed(2)}</div>
+          </div>
+        </div>
+        <div class="result-card" style="text-align:center;">
+          <div style="font-size:.75rem; color:var(--text2); margin-bottom:8px;">CONFIDENCE</div>
+          <div style="font-weight:800; font-size:1.1rem;">${confidence}%</div>
+          <div class="rc-conf-bar-bg" style="margin-top:10px;">
+            <div class="rc-conf-bar" style="width:${confidence}%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="result-card" style="margin-top:12px;">
+        <div class="rc-insight">${summary.message || ""}</div>
+      </div>
+    </div>`;
+}
+
+function skeletonCard(label) {
+  return `<div class="result-card">
+    <div class="rc-header">
+      <span class="rc-model">${label}</span>
+      <span class="rc-badge badge-med" style="opacity:.4">···</span>
+    </div>
+    <div class="rc-loading-label">Analysing market data</div>
+    <div class="rc-skeleton tall"></div>
+    <div class="rc-skeleton full"></div>
+    <div class="rc-skeleton short"></div>
+    <div class="rc-skeleton full"></div>
+    <div class="rc-skeleton short"></div>
+    <div class="rc-skeleton" style="margin-top:16px;width:70%"></div>
+  </div>`;
+}
+
 function renderCard(key, data, label) {
   if (!data) return `<div class="result-card">
     <div class="rc-header"><span class="rc-model">${label}</span></div>
     <div class="rc-insight" style="margin-top:8px">No data.</div>
   </div>`;
-
-  const risk  = (data.risk_level || "MEDIUM").toUpperCase();
-  const price = data.price_estimate ? `$${parseFloat(data.price_estimate).toFixed(2)}` : "–";
-  const trend = data.trend || "–";
-
+  const risk    = (data.risk_level || "MEDIUM").toUpperCase();
+  const price   = data.price_estimate ? `$${parseFloat(data.price_estimate).toFixed(2)}` : "–";
+  const trend   = data.trend || "–";
+  const insight = data.insight || data.summary || "–";
   const confMap = { "LOW": 75, "MEDIUM": 55, "HIGH": 35 };
-  const conf = confMap[risk] || 55;
-
-  const today  = new Date();
-  const asOf   = today.toISOString().split("T")[0];
-  const target = new Date(today.getTime() + activeHorizon * 86400000).toISOString().split("T")[0];
-
+  const conf    = confMap[risk] || 55;
+  const today   = new Date();
+  const asOf    = today.toISOString().split("T")[0];
+  const target  = new Date(today.getTime() + activeHorizon * 86400000).toISOString().split("T")[0];
   return `<div class="result-card">
     <div class="rc-header">
       <span class="rc-model">${label}</span>
@@ -346,12 +648,13 @@ function renderCard(key, data, label) {
     <div class="rc-row"><span class="label">As of</span><span class="value">${asOf}</span></div>
     <div class="rc-row"><span class="label">Target date</span><span class="value">${target}</span></div>
     <div class="rc-divider"></div>
-    <div class="rc-insight">${data.insight || "–"}</div>
+    <div class="rc-insight">${insight}</div>
   </div>`;
 }
 
 // ── RUN PREDICTION ──
 document.getElementById("runBtn").addEventListener("click", async () => {
+  if (!activeTicker) return;
   const btn  = document.getElementById("runBtn");
   const dot  = document.getElementById("statusDot");
   const txt  = document.getElementById("statusText");
@@ -359,9 +662,11 @@ document.getElementById("runBtn").addEventListener("click", async () => {
   btn.disabled    = true;
   dot.className   = "status-dot loading";
   txt.textContent = `Running prediction for ${activeTicker} (1 Day)...`;
-  grid.innerHTML  = ["QWEN 30B","GOOGLE GEMMA","GROQ LLAMA"].map(label =>
-    `<div class="result-card"><div class="rc-loading">⏳ Calling ${label}...</div></div>`
-  ).join("");
+  grid.innerHTML  =
+    skeletonCard("CHATGPT 4o") +
+    skeletonCard("DEEPSEEK V3") +
+    skeletonCard("GEMINI 2.5 FLASH") +
+    skeletonCard("GROQ LLAMA");
   try {
     const res  = await fetch("/run_predict", {
       method: "POST",
@@ -373,9 +678,11 @@ document.getElementById("runBtn").addEventListener("click", async () => {
     txt.textContent = `Prediction complete for ${activeTicker} (1 Day).`;
     const llm = data.llm || {};
     grid.innerHTML =
-      renderCard("chat",     llm.chat,     "QWEN 30B") +
-      renderCard("deepseek", llm.deepseek, "GOOGLE GEMMA") +
+      renderCard("chat",     llm.chat,     "CHATGPT 4o") +
+      renderCard("deepseek", llm.deepseek, "DEEPSEEK V3") +
+      renderCard("gemini",   llm.gemini,   "GEMINI 2.5 FLASH") +
       renderCard("groq",     llm.groq,     "GROQ LLAMA");
+    document.getElementById("summaryCard").innerHTML = renderSummary(data.summary);
   } catch(e) {
     dot.className   = "status-dot error";
     txt.textContent = "Error: " + e.message;
@@ -385,10 +692,54 @@ document.getElementById("runBtn").addEventListener("click", async () => {
   }
 });
 
+// ── FEEDBACK ──
+function toggleFeedback() {
+  const modal   = document.getElementById("feedbackModal");
+  const overlay = document.getElementById("feedbackOverlay");
+  const isOpen  = modal.style.display === "block";
+  modal.style.display   = isOpen ? "none" : "block";
+  overlay.style.display = isOpen ? "none" : "block";
+}
+function closeFeedback() {
+  document.getElementById("feedbackModal").style.display   = "none";
+  document.getElementById("feedbackOverlay").style.display = "none";
+}
+async function submitFeedback() {
+  const name    = document.getElementById("fbName").value.trim();
+  const email   = document.getElementById("fbEmail").value.trim();
+  const message = document.getElementById("fbMessage").value.trim();
+  const status  = document.getElementById("fbStatus");
+  if (!message) { status.style.color = "#ff4d6d"; status.textContent = "Please enter a message."; return; }
+  status.style.color = "var(--text2)";
+  status.textContent = "Sending...";
+  try {
+    const res  = await fetch("/api/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, message })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      status.style.color = "#00d4aa";
+      status.textContent = "✅ Thank you for your feedback!";
+      document.getElementById("fbName").value    = "";
+      document.getElementById("fbEmail").value   = "";
+      document.getElementById("fbMessage").value = "";
+      setTimeout(closeFeedback, 2000);
+    } else {
+      status.style.color = "#ff4d6d";
+      status.textContent = data.error || "Something went wrong.";
+    }
+  } catch(e) {
+    status.style.color = "#ff4d6d";
+    status.textContent = "Network error. Try again.";
+  }
+}
+
 // ── INIT ──
 window.addEventListener("load", () => {
   buildWatchlist();
-  rebuildChart().then(() => selectStock("AAPL"));
+  // No auto-load — start on search screen
 });
 </script>
 </body>
